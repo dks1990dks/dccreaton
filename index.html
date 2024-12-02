@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DC Creation</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="adminlogin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!--GOOGLE FONTS-->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Play&display=swap" rel="stylesheet">
+
+    <style>
+        /* Main content styling */
+        main {
+            padding: 30px 50px;
+        }
+/* Navbar general styling */
+.navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #333;
+            padding: 10px 20px;
+            position: relative; /* Ensure it doesn't overlap with other content */
+        }
+
+        .logo {
+            margin-right: auto; /* Ensures logo takes space to avoid overlap */
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            gap: 15px;
+            padding: 0;
+            margin: 0;
+        }
+
+
+        .navbar li {
+            position: relative;
+            list-style: none;
+        }
+
+        /* Hamburger Icon */
+        .hamburger {
+            display: none;
+            font-size: 30px;
+            cursor: pointer;
+            color: white;
+            margin-left: 20px; /* Add margin to the left */
+        }
+         /* Side Navigation Styling */
+         .sidenav {
+            height: auto;
+            width: 0;
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            right: 0;
+            background-color: #111;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: auto;
+            border-radius: 10px;
+        }
+        .sidenav a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+        }
+
+
+        .sidenav a:hover {
+            color: #f1f1f1;
+        }
+
+        .sidenav .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+
+        /* Responsive Navbar and Sidenav */
+        @media (max-width: 768px) {
+            .navbar ul {
+                display: none;
+            }
+
+            .hamburger {
+                display: block; /* Show hamburger in small screen */
+            }
+
+            .navbar {
+                padding: 10px; /* Adjust padding for smaller screens */
+            }
+        }
+
+        /* Mobile-specific adjustments */
+        @media (max-width: 480px) {
+            .sidenav a {
+                font-size: 18px;
+            }
+        }
+
+        /* Slider container: Smooth transition */
+        .slide.active {
+            display: block;
+        }
+
+        /* Latest Products Section */
+        .latest-products-section {
+            padding: 20px;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin-bottom: 40px;
+        }
+
+        .latest-products-section h2 {
+            margin-bottom: 20px;
+            font-size: 2em;
+            color: #333;
+        }
+
+        .latest-products-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            padding: 0 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .latest-product-item {
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s;
+            position: relative;
+            flex: 1 1 200px;
+            max-width: 200px;
+            text-align: center;
+        }
+
+        .latest-product-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .latest-product-item img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .latest-product-item h3 {
+            margin: 10px 0;
+            font-size: 1.5em;
+            color: #333;
+        }
+
+        .latest-product-item p {
+            padding-bottom: 10px;
+        }
+
+        .view-details-btn {
+            padding: 10px 15px;
+            background-color: #ff6600;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin: 10px 0;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        /* Category section styling */
+        .category-section {
+            padding: 20px;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+
+        .category-section h2 {
+            margin-bottom: 20px;
+            font-size: 2em;
+            color: #333;
+        }
+
+        .category-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            padding: 0 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .category-item {
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s;
+            position: relative;
+            flex: 1 1 200px;
+            max-width: 200px;
+            text-align: center;
+        }
+
+        .category-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .category-item img {
+            width: 100%;
+            height: 300%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .category-item h3 {
+            margin: 10px 0;
+            font-size: 1.5em;
+            color: #333;
+            height: 50px;
+            /* overflow: hidden; */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Footer styling */
+        footer .row ul li a:hover {
+            color: #fff;
+        }
+
+        footer .row a:hover {
+            color: #fff;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .products-grid {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .product-card {
+                width: 80%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            main {
+                padding: 15px;
+            }
+
+            .products-grid {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .product-card {
+                width: 100%;
+            }
+
+        }
+
+     
+    </style>
+</head>
+
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="top-bar">
+            <p>+91 9737833333 | info@abcd.com</p>
+        </div>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="LOGO.jpeg" alt="Logo">
+            </div>
+            <span class="hamburger" onclick="openNav()">&#9776;</span>
+            <ul id="navbar-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="aboutus.html">About Us</a></li>
+                <li><a href="mainproduct.html">Collections</a></li>
+                <li><a href="contactus.html">Contact Us</a></li>
+                
+            </ul>
+            <li  id="user-nav">
+                <a href="#" id="login-link">Login</a> <!-- Default Login Link -->
+              </li>
+            <li><a href="cart.html" id="cartIcon">
+                <i class="fa fa-shopping-cart"></i> <span id="cartCount">0</span>
+            </a></li>
+        </nav>
+    </header>
+    <!-- Side Navigation for Mobile -->
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="index.html">Home</a>
+        <a href="aboutus.html">About Us</a>
+        <a href="mainproduct.html">Collections</a>
+        <a href="contactus.html">Contact Us</a>
+        
+    </div>
+    
+
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+          <span class="close" id="close-modal">&times;</span>
+          <div class="form-container">
+            <div class="form-header">
+              <button id="login-btn" class="active">Login</button>
+              <button id="register-btn">Register</button>
+            </div>
+            <form id="login-form" class="active">
+              <h2>Login</h2>
+              <label for="login-email">Email</label>
+              <input type="email" id="login-email" placeholder="Enter your email" required />
+              <label for="login-password">Password</label>
+              <input type="password" id="login-password" placeholder="Enter your password" required />
+              <button type="button" id="login-submit" class="submit-btn">Login</button>
+              <p><a href="#" id="forgot-password-link">Forgot Password?</a></p>
+            </form>
+            <form id="register-form">
+              <h2>Register</h2>
+              <label for="register-name">Name</label>
+              <input type="text" id="register-name" placeholder="Enter your name" required />
+              <label for="register-email">Email</label>
+              <input type="email" id="register-email" placeholder="Enter your email" required />
+              <label for="register-password">Password</label>
+              <input type="password" id="register-password" placeholder="Create a password" required />
+              <button type="button" id="register-submit" class="submit-btn">Register</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div id="forgot-password-modal" class="modal">
+        <div class="modal-content">
+          <span class="close" id="close-forgot-password-modal">&times;</span>
+          <h2>Reset Password</h2>
+      
+          <!-- Forgot Password Form -->
+          <form id="forgot-password-form">
+            <label for="reset-email">Email</label>
+            <input type="email" id="reset-email" placeholder="Enter your email" required />
+            <button type="button" id="reset-password-submit" class="submit-btn">Send Reset Link</button>
+          </form>
+        </div>
+      </div>
+      
+
+    <!-- Slider Section -->
+    <section class="slider">
+        <div class="slider-container">
+            <div class="slide active">
+                <img src="SUMMER.jpeg" alt="Image 1">
+            </div>
+            <div class="slide">
+                <img src="WINTER.jpeg" alt="Image 2">
+            </div>
+            <div class="slide">
+                <img src="PAKISTANI.jpeg" alt="Image 3">
+            </div>
+        </div>
+        <button class="prev" onclick="changeSlide(-1)">&#10094;</button>
+        <button class="next" onclick="changeSlide(1)">&#10095;</button>
+    </section>
+
+    <!-- Latest Products Section -->
+    <section class="latest-products-section">
+        <h2>Latest Products</h2>
+        <div class="latest-products-grid" id="latest-products-grid">
+            <!-- Products will be dynamically inserted here -->
+        </div>
+    </section>
+
+   <!-- Category Section -->
+<section class="category-section">
+    <h2>Shop by Category</h2>
+    <div class="category-grid">
+        <a href="mainproduct.html#sarees" class="category-item">
+            <img src="SAREE (1).webp" alt="Sarees">
+            <h3>Sarees</h3>
+        </a>
+        <a href="mainproduct.html#kurtis" class="category-item">
+            <img src="53753-8634 KURTI (1).webp" alt="Kurtis">
+            <h3>Kurtis</h3>
+        </a>
+        <a href="mainproduct.html#suits" class="category-item">
+            <img src="53763-1004 SUIT (1).webp" alt="Suits">
+            <h3>Suits</h3>
+        </a>
+        <a href="mainproduct.html#gowns" class="category-item">
+            <img src="GOUWN (1).webp" alt="Gowns">
+            <h3>Gowns</h3>
+        </a>
+        <a href="mainproduct.html#lehengas" class="category-item">
+            <img src="53762-123-r SUIT (1).webp" alt="Lehengas">
+            <h3>Lehengas</h3>
+        </a>
+    </div>
+</section>
+
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/9737833333" class="whatsapp-float" target="_blank">
+        <img src="WhatsApp_icon.png" alt="WhatsApp" />
+    </a>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="footer">
+            <div class="row">
+                <a href="#"><i class="fa fa-facebook"></i></a>
+                <a href="#"><i class="fa fa-instagram"></i></a>
+                <a href="#"><i class="fa fa-youtube"></i></a>
+                <a href="#"><i class="fa fa-twitter"></i></a>
+            </div>
+
+            <div class="row">
+                <ul>
+                    <li><a href="#">Contact us</a></li>
+                    <li><a href="#">Our Services</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                    <li><a href="dcadmin.html">Admin</a></li>
+                </ul>
+            </div>
+
+            <div class="row">
+                <p>&copy; <span id="year"></span> DC Creation. All rights reserved.</p>
+                <p>Website by Deepak-VDC</p>
+            </div>
+        </div>
+    </footer>
+    <script src="myaccountlogin.js"></script>
+    <script src="script.js"></script>
+    <script src="cart.js"></script>
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const sliderContainer = document.querySelector('.slider-container');
+
+        // Update the slide display with smooth sliding effect
+        function showSlide(index) {
+            if (index >= totalSlides) {
+                currentSlide = 0; // Loop back to the first slide
+            } else if (index < 0) {
+                currentSlide = totalSlides - 1; // Go to the last slide
+            } else {
+                currentSlide = index; // Set the current slide
+            }
+            // Slide the container smoothly
+            sliderContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
+
+        // Function to change the current slide
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+
+        // Automatically switch slides every 5 seconds
+        setInterval(() => {
+            changeSlide(1);  // Move to the next slide automatically
+        }, 5000);
+
+        // Show the first slide initially
+        document.addEventListener('DOMContentLoaded', () => {
+            showSlide(currentSlide);
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchLatestProducts();
+        });
+
+        async function fetchLatestProducts() {
+            try {
+                const response = await fetch('https://dc-1-fqlb.onrender.com/products');
+                const latestProducts = await response.json();
+
+                const latestProductsGrid = document.getElementById('latest-products-grid');
+
+                latestProducts.forEach(product => {
+                    const productItem = document.createElement('div');
+                    productItem.classList.add('latest-product-item');
+
+                    productItem.innerHTML = `
+                <img src="${product.mainImage}" alt="${product.title}">
+                <h3>${product.title}</h3>
+                <p>Price: ₹${product.price}</p>
+                 <button onclick="window.location.href='product.html?id=${product._id}'">View Details</button>
+            `;
+
+                    latestProductsGrid.appendChild(productItem);
+                });
+            } catch (error) {
+                console.error('Error fetching latest products:', error);
+            }
+        }
+
+       
+    </script>
+</body>
+
+</html>

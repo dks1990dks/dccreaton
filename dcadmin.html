@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <style>
+        /* General Styles */
+        body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background-color: #f9f9f9;
+            }
+    
+            h1 {
+                text-align: center;
+                margin: 20px 0;
+                color: #333;
+            }
+    
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+                background-color: white;
+                border-radius: 8px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            }
+    
+            .tabs {
+                display: flex;
+                justify-content: center;
+                gap: 20px;
+                margin-bottom: 20px;
+                flex-wrap: wrap;
+            }
+    
+            .tab {
+                padding: 10px 20px;
+                cursor: pointer;
+                background-color: #333;
+                color: white;
+                border-radius: 5px;
+                text-align: center;
+                transition: background-color 0.3s ease;
+                flex: 1;
+                min-width: 120px;
+            }
+    
+            .tab:hover {
+                background-color: #555;
+            }
+    
+            .tab.active {
+                background-color: #007bff;
+            }
+    
+            .tab-content {
+                display: none;
+            }
+    
+            .tab-content.active {
+                display: block;
+            }
+    
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 20px 0;
+                background-color: #fff;
+            }
+    
+            table th,
+            table td {
+                border: 1px solid #ddd;
+                padding: 10px;
+                text-align: left;
+            }
+    
+            table th {
+                background-color: #f4f4f4;
+            }
+    
+            .form-control label {
+                display: block;
+                margin-bottom: 5px;
+                font-weight: bold;
+            }
+    
+            .form-control input,
+            .form-control select,
+            .form-control textarea {
+                width: 100%;
+                padding: 8px;
+                margin-bottom: 10px;
+                box-sizing: border-box;
+            }
+    
+            button {
+                background-color: #28a745;
+                color: white;
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+                width: 100%;
+            }
+    
+            button:hover {
+                background-color: #218838;
+            }
+    
+            .delete-btn {
+                background-color: #dc3545;
+                padding: 5px 10px;
+                border-radius: 5px;
+            }
+    
+            .delete-btn:hover {
+                background-color: #c82333;
+            }
+    
+            .modal {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                display: none;
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
+            }
+    
+            .modal-content {
+                background-color: white;
+                padding: 20px;
+                border-radius: 8px;
+                max-width: 600px;
+                width: 80%;
+            }
+    
+            .modal-content h2 {
+                margin-top: 0;
+            }
+    
+            .close {
+                float: right;
+                cursor: pointer;
+                font-size: 20px;
+                font-weight: bold;
+            }
+    
+            .close:hover {
+                color: red;
+            }
+    
+            h1 {
+                text-align: center;
+                color: #333;
+            }
+    
+            form {
+                max-width: 600px;
+                margin: 20px auto; /* Center the form */
+                padding: 20px;
+                background: #fff;
+                border-radius: 8px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            }
+    
+            form div {
+                margin-bottom: 15px;
+            }
+    
+            label {
+                display: block;
+                margin-bottom: 5px;
+                font-weight: bold;
+                color: #555;
+            }
+    
+            input[type="text"],
+            input[type="number"],
+            input[type="file"],
+            select,
+            textarea {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                box-sizing: border-box;
+                font-size: 16px;
+                transition: border-color 0.3s; /* Smooth border color transition */
+            }
+    
+            input[type="text"]:focus,
+            input[type="number"]:focus,
+            select:focus,
+            textarea:focus {
+                border-color: #007bff; /* Highlight border on focus */
+                outline: none; /* Remove default outline */
+            }
+    
+            textarea {
+                resize: vertical;
+            }
+    
+            button {
+                background-color: #28a745;
+                color: white;
+                padding: 10px 15px;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 16px;
+                transition: background-color 0.3s;
+                width: 100%; /* Make the button full-width */
+            }
+    
+            button:hover {
+                background-color: #218838;
+            }
+    
+            .image-preview,
+            .thumbnail-preview {
+                margin-top: 10px;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                max-width: 20%; /* Responsive image */
+                display: none; /* Initially hide previews */
+            }
+    
+            .success-message,
+            .error-message {
+                margin-top: 10px;
+                text-align: center;
+            }
+    
+            .success-message {
+                color: green;
+            }
+    
+            .error-message {
+                color: red;
+            }
+    
+            /* Styling for the table */
+            #product-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin: 20px 0;
+                font-size: 18px;
+                text-align: left;
+            }
+    
+            /* Table header styles */
+            #product-table th,
+            #product-table td {
+                padding: 12px 15px;
+                border: 1px solid #ddd;
+            }
+    
+            /* Actions column alignment */
+            #product-table td:last-child {
+                text-align: center;
+            }
+    
+            /* Delete button styles */
+            .delete-btn {
+                background-color: #ff4d4d;
+                color: white;
+                border: none;
+                padding: 8px 12px;
+                cursor: pointer;
+                border-radius: 4px;
+            }
+    
+            .delete-btn:hover {
+                background-color: #e60000;
+            }
+    
+            #orderFilter {
+                font-size: 16px;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+            }
+    
+            #order-table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+    
+            #order-table th,
+            #order-table td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+            }
+    
+            #order-table th {
+                background-color: #f4f4f4;
+                font-weight: bold;
+            }
+    
+            /* Responsive Design */
+            @media (max-width: 768px) {
+                .tabs {
+                    flex-direction: column;
+                    align-items: center;
+                }
+    
+                .tab {
+                    min-width: 100%;
+                    text-align: center;
+                    padding: 12px;
+                }
+    
+                .form-control input,
+                .form-control select,
+                .form-control textarea {
+                    font-size: 14px;
+                    padding: 12px;
+                }
+    
+                .image-preview,
+                .thumbnail-preview {
+                    max-width: 50%;
+                }
+    
+                table th,
+                table td {
+                    font-size: 14px;
+                    padding: 8px;
+                }
+    
+                button {
+                    padding: 12px 15px;
+                    font-size: 18px;
+                }
+            }
+    
+            /* For smaller screens */
+            @media (max-width: 480px) {
+                .container {
+                    padding: 10px;
+                }
+    
+                table {
+                    font-size: 12px;
+                }
+    
+                button {
+                    padding: 10px;
+                    font-size: 16px;
+                }
+    
+                .tabs {
+                    flex-direction: column;
+                }
+            }
+
+        /* Modal Styles */
+        #otpModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        #otpModalContent {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .btn {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        #message {
+            text-align: center;
+            font-size: 14px;
+            padding-top: 15px;
+        }
+
+        /* Hide admin content initially */
+        #adminContent {
+            display: none;
+        }
+
+        /* Logout Button */
+        .logout-btn {
+            float: right;
+            margin: 10px;
+            padding: 10px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            background-color: darkred;
+        }
+    </style>
+</head>
+<body>
+    <!-- Admin OTP Modal -->
+    <div id="otpModal">
+        <div id="otpModalContent">
+            <h2>Admin OTP Verification</h2>
+            <!-- Admin OTP Form -->
+            <div id="otpForm" class="form-container">
+                <label for="mobileNumber">Admin Mobile Number:</label>
+                <input type="text" id="mobileNumber" placeholder="Enter Admin Mobile Number" required />
+                <button class="btn" onclick="sendOtp()">Send OTP</button>
+            </div>
+
+            <!-- OTP Verification -->
+            <div id="otpVerification" class="form-container" style="display:none;">
+                <label for="otp">Enter OTP:</label>
+                <input type="text" id="otp" placeholder="Enter OTP" required />
+                <button class="btn" onclick="verifyOtp()">Verify OTP</button>
+            </div>
+
+            <div id="message"></div>
+        </div>
+    </div>
+
+    <!-- Admin Content -->
+    <div id="adminContent">
+        <button class="logout-btn" onclick="logout()">Logout</button>
+        <h1>Admin Panel</h1>
+        <div class="container">
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab('product-management')">Manage Products</div>
+                <div class="tab" onclick="switchTab('order-management')">Manage Orders</div>
+            </div>
+    
+    
+            <!-- Product Management Tab -->
+            <div id="product-management" class="tab-content active">
+                <h1>Add Product</h1>
+                <form id="product-form" enctype="multipart/form-data">
+                    <div>
+                        <label for="product-category">Category:</label>
+                        <select id="product-category" name="category" required>
+                            <option value="Saree">Saree</option>
+                            <option value="Suit">Suit</option>
+                            <option value="Kurti">Kurti</option>
+                            <option value="Gown">Gown</option>
+                            <option value="Lehenga">Lehenga</option>
+                        </select>
+                    </div>
+    
+                    <div>
+                        <label for="product-title">Title:</label>
+                        <input type="text" id="product-title" name="title" required>
+                    </div>
+                    <div>
+                        <label for="product-price">Price:</label>
+                        <input type="number" id="product-price" name="price" required>
+                    </div>
+                    <div>
+                        <label for="product-description">Description:</label>
+                        <textarea id="product-description" name="description" required></textarea>
+                    </div>
+                    <div>
+                        <label for="product-image">Main Image:</label>
+                        <input type="file" id="product-image" name="mainImage" accept="image/*" required>
+                        <img id="image-preview" class="image-preview" alt="Main Image Preview">
+                    </div>
+                    <div>
+                        <label for="product-thumbnail-1">Thumbnail 1:</label>
+                        <input type="file" id="product-thumbnail-1" name="thumbnail1" accept="image/*" required>
+                        <img id="thumbnail-preview-1" class="thumbnail-preview" alt="Thumbnail 1 Preview">
+                    </div>
+                    <div>
+                        <label for="product-thumbnail-2">Thumbnail 2:</label>
+                        <input type="file" id="product-thumbnail-2" name="thumbnail2" accept="image/*" required>
+                        <img id="thumbnail-preview-2" class="thumbnail-preview" alt="Thumbnail 2 Preview">
+                    </div>
+                    <div>
+                        <label for="product-thumbnail-3">Thumbnail 3:</label>
+                        <input type="file" id="product-thumbnail-3" name="thumbnail3" accept="image/*" required>
+                        <img id="thumbnail-preview-3" class="thumbnail-preview" alt="Thumbnail 3 Preview">
+                    </div>
+                    <div>
+                        <label for="product-stock">Stock Quantity:</label>
+                        <input type="number" name="stock" id="product-stock" placeholder="Enter stock quantity" required>
+    
+                    </div>
+                    <div>
+                        <label for="offerPercentage">Offer Percentage:</label>
+                        <input type="number" id="offerPercentage" name="offerPercentage" min="0" max="100"
+                            placeholder="Enter offer percentage (0 for no offer)">
+                    </div>
+                    <div>
+                        <label for="product-video">Video File:</label>
+                        <input type="file" id="product-video" name="videoFile" accept="video/*" required>
+                        <video id="video-preview" class="image-preview" controls
+                            style="display:none; max-width:200px;"></video>
+                    </div>
+    
+                    <button type="submit">Add Product</button>
+                    <div id="message"></div>
+    
+                    <h2>All Products</h2>
+                    <table id="product-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Actions</th> <!-- Actions column -->
+                            </tr>
+                        </thead>
+                        <tbody></tbody> <!-- Data will populate here -->
+                    </table>
+            </div>
+    
+    <!-- Modal for Adding Stock -->
+    <div id="add-stock-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeStockModal()">&times;</span>
+            <h2>Add Stock</h2>
+            <label for="stock-quantity">Stock Quantity:</label>
+            <input type="number" id="stock-quantity" placeholder="Enter stock quantity" min="1">
+            <button onclick="updateStock()">Update Stock</button>
+        </div>
+    </div>
+    
+            <!-- Order Management Tab -->
+            <div id="order-management" class="tab-content">
+                <h2>Orders</h2>
+                <input type="text" id="orderFilter" onkeyup="filterOrders()" placeholder="Search Orders...">
+                <table id="orders-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Address</th>
+                            <th>Phone</th>
+                            <th>Products</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                            <th>Tracking Status</th>
+                            <th>Update Status</th>
+                            
+                            
+                            
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    
+    
+        <!-- Modal for Order Details -->
+        <div id="order-details-modal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2>Order Details</h2>
+                <div id="order-details-content"></div>
+            </div>
+        </div>
+    
+
+    <script>
+        const ADMIN_MOBILE_NUMBER = '+919737833333';  // Replace with actual admin mobile number
+        const API_BASE_URL = 'https://dc-1-fqlb.onrender.com'; // Replace with your backend base URL
+
+        // On page load, check authentication
+        window.onload = function () {
+            const isAuthenticated = sessionStorage.getItem('adminAuthenticated');
+            if (!isAuthenticated) {
+                document.getElementById('otpModal').style.display = 'block';
+            } else {
+                document.getElementById('adminContent').style.display = 'block';
+            }
+        };
+
+        // Send OTP to admin's mobile number
+        async function sendOtp() {
+            const mobileNumber = document.getElementById('mobileNumber').value;
+            const messageDiv = document.getElementById('message');
+
+            if (mobileNumber !== ADMIN_MOBILE_NUMBER) {
+                messageDiv.textContent = 'Unauthorized access. Invalid mobile number.';
+                messageDiv.style.color = 'red';
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/send-admin-otp`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ mobileNumber }),
+                });
+
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    messageDiv.textContent = 'OTP sent successfully. Please check your mobile.';
+                    messageDiv.style.color = 'green';
+                    document.getElementById('otpForm').style.display = 'none';
+                    document.getElementById('otpVerification').style.display = 'block';
+                } else {
+                    messageDiv.textContent = data.message || 'Failed to send OTP. Try again.';
+                    messageDiv.style.color = 'red';
+                }
+            } catch (error) {
+                messageDiv.textContent = 'An error occurred. Please try again.';
+                messageDiv.style.color = 'red';
+            }
+        }
+
+        // Verify the OTP
+        async function verifyOtp() {
+            const mobileNumber = document.getElementById('mobileNumber').value;
+            const otp = document.getElementById('otp').value;
+            const messageDiv = document.getElementById('message');
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/verify-admin-otp`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ mobileNumber, otp }),
+                });
+
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    sessionStorage.setItem('adminAuthenticated', true);
+                    document.getElementById('otpModal').style.display = 'none';
+                    document.getElementById('adminContent').style.display = 'block';
+                } else {
+                    messageDiv.textContent = 'Invalid OTP or mobile number.';
+                    messageDiv.style.color = 'red';
+                }
+            } catch (error) {
+                messageDiv.textContent = 'An error occurred. Please try again.';
+                messageDiv.style.color = 'red';
+            }
+        }
+
+        // Logout Functionality
+        function logout() {
+            sessionStorage.removeItem('adminAuthenticated');
+            alert('You have been logged out.');
+            location.reload(); // Reload the page to show OTP modal
+        }
+
+         // Preview functions for images and video
+         function handleImagePreview(inputId, previewId, isVideo = false) {
+            document.getElementById(inputId).addEventListener('change', function () {
+                const file = this.files[0];
+                const previewElement = document.getElementById(previewId);
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        previewElement.src = e.target.result;
+                        previewElement.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        handleImagePreview('product-image', 'image-preview');
+        handleImagePreview('product-thumbnail-1', 'thumbnail-preview-1');
+        handleImagePreview('product-thumbnail-2', 'thumbnail-preview-2');
+        handleImagePreview('product-thumbnail-3', 'thumbnail-preview-3');
+        handleImagePreview('product-video', 'video-preview', true);
+
+        // Form submission
+        document.getElementById('product-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            const submitButton = e.target.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+
+            fetch('https://dc-1-fqlb.onrender.com/upload', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.text().then(text => { throw new Error(text); });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const messageDiv = document.getElementById('message');
+                    messageDiv.innerHTML = '<div class="success-message">Product added successfully!</div>';
+                    console.log(data);
+                    this.reset();
+
+                    // Hide previews after form reset
+                    document.getElementById('image-preview').style.display = 'none';
+                    document.getElementById('thumbnail-preview-1').style.display = 'none';
+                    document.getElementById('thumbnail-preview-2').style.display = 'none';
+                    document.getElementById('thumbnail-preview-3').style.display = 'none';
+                    document.getElementById('video-preview').style.display = 'none';
+                })
+                .catch(error => {
+                    const messageDiv = document.getElementById('message');
+                    messageDiv.innerHTML = '<div class="error-message">Error adding product: ' + error.message + '</div>';
+                    console.error(error);
+                })
+                .finally(() => {
+                    submitButton.disabled = false;
+                });
+        });
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchProducts();
+            fetchOrders();
+        });
+
+        // Tab switching
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.querySelector(`.tab[onclick="switchTab('${tabId}')"]`).classList.add('active');
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        // Fetch products
+        function fetchProducts() {
+    fetch('https://dc-1-fqlb.onrender.com/products')
+        .then(res => res.json())
+        .then(data => {
+            const tbody = document.querySelector('#product-table tbody');
+            tbody.innerHTML = ''; // Clear existing rows
+            data.forEach(product => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${product._id}</td>
+                    <td>${product.title}</td>
+                    <td>${product.price}</td>
+                    <td>${product.stock !== undefined ? product.stock : 'N/A'}</td>
+                    <td>
+                        <button class="delete-btn" onclick="deleteProduct('${product._id}')">Delete</button>
+                        <button class="add-stock-btn" onclick="openStockModal('{productID}')">Add Stock</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        })
+        .catch(error => console.error('Error fetching products:', error));
+}
+
+        function deleteProduct(productId) {
+    if (confirm('Are you sure you want to delete this product?')) {
+        fetch(`https://dc-1-fqlb.onrender.com/products/${productId}`, {
+            method: 'DELETE',
+        })
+        .then(res => {
+            if (!res.ok) throw new Error('Failed to delete product');
+            return res.json();
+        })
+        .then(() => {
+            alert('Product deleted successfully!');
+            fetchProducts(); // Refresh the product list
+        })
+        .catch(err => {
+            console.error('Error deleting product:', err);
+            alert('Failed to delete product. Please try again.');
+        });
+    }
+}
+
+let currentProductID = null;
+
+function openStockModal(productID) {
+    currentProductID = productID;
+    document.getElementById('add-stock-modal').style.display = 'flex';
+}
+
+function closeStockModal() {
+    document.getElementById('add-stock-modal').style.display = 'none';
+}
+
+function updateStock() {
+    const stockQuantity = document.getElementById('stock-quantity').value;
+    if (stockQuantity > 0) {
+        // Make an API request to update the stock
+        fetch(`/update-stock/${currentProductID}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ stock: stockQuantity }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Stock updated successfully');
+                closeStockModal();
+                // Optionally, you can update the table here to reflect the new stock value
+            } else {
+                alert('Failed to update stock');
+            }
+        })
+        .catch(error => {
+            console.error('Error updating stock:', error);
+            alert('Error updating stock');
+        });
+    } else {
+        alert('Please enter a valid stock quantity');
+    }
+}
+
+
+        // Fetch orders
+       // Fetch orders
+// Fetch orders
+function fetchOrders() {
+    fetch('https://dc-1-fqlb.onrender.com/admin/orders')
+        .then(res => res.json())
+        .then(data => {
+            const tbody = document.querySelector('#orders-table tbody');
+            tbody.innerHTML = data.map(order => {
+                // Generate product details
+                const productTitles = order.items && order.items.length > 0
+                    ? order.items.map(item => item.title).join(', ')
+                    : 'No products';
+                const totalAmount = order.items && order.items.length > 0
+                    ? order.items.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+                    : 0;
+
+                return `
+                    <tr>
+                        <td>${order._id}</td>
+                        <td>${order.fullName}</td>
+                        <td>${order.address}, ${order.city}, ${order.country} - ${order.postalCode}</td>
+                        <td>${order.phone}</td>
+                        <td>${productTitles}</td>
+                        <td>₹${totalAmount}</td>
+                        <td>${order.status}</td>
+                        <td>
+                            <button onclick="showOrderDetails('${order._id}')">Details</button>
+                        </td>
+                        <td>
+                            ${order.trackingDetails ? `${order.trackingDetails.status} (Updated: ${order.trackingDetails.lastUpdated})` : 'N/A'}
+                        </td>
+                        <td>
+                            <select onchange="handleStatusChange('${order._id}', this.value)">
+                                <option value="" disabled selected>Update Status</option>
+                                <option value="Processing">Processing</option>
+                                <option value="Packed">Packed</option>
+                                <option value="Shipped">Shipped</option>
+                                <option value="Delivered">Delivered</option>
+                            </select>
+                        </td>
+                    </tr>`;
+            }).join('');
+        })
+        .catch(error => console.error('Error fetching orders:', error));
+}
+
+// Function to handle status change
+async function handleStatusChange(orderId, newStatus) {
+    if (newStatus === 'Shipped') {
+        const awb = prompt('Enter the AWB Number for this order:');
+        if (!awb) {
+            alert('AWB Number is required to mark as Shipped!');
+            return;
+        }
+
+        try {
+            const response = await fetch(`https://dc-1-fqlb.onrender.com/admin/orders/${orderId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ status: newStatus, awb }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to update order status');
+            }
+
+            const updatedOrder = await response.json();
+            console.log('Order updated successfully:', updatedOrder);
+
+            if (updatedOrder.trackingDetails) {
+                const { status, lastUpdated } = updatedOrder.trackingDetails;
+                alert(`Order marked as Shipped.\nTracking Status: ${status}\nLast Updated: ${lastUpdated}`);
+            } else {
+                alert('Order marked as Shipped, but no tracking details are available yet.');
+            }
+        } catch (error) {
+            console.error('Error updating order status:', error);
+            alert('Error updating order status. Please try again later.');
+        }
+    } else {
+        try {
+            const response = await fetch(`https://dc-1-fqlb.onrender.com/admin/orders/${orderId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ status: newStatus }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to update order status');
+            }
+
+            const updatedOrder = await response.json();
+            console.log('Order updated successfully:', updatedOrder);
+            alert(`Order status updated to ${newStatus}`);
+        } catch (error) {
+            console.error('Error updating order status:', error);
+            alert('Error updating order status. Please try again later.');
+        }
+    }
+}
+
+
+function filterOrders() {
+    // Get the input field and filter value
+    const input = document.getElementById('orderFilter');
+    const filter = input.value.toLowerCase();
+    
+    // Get the table and its rows
+    const table = document.getElementById('orders-table');
+    
+    // Check if the table exists
+    if (!table) {
+        console.error('Order table not found');
+        return; // Exit if table is not found
+    }
+
+    const rows = table.getElementsByTagName('tr');
+
+    // Loop through table rows and hide/show based on filter
+    for (let i = 1; i < rows.length; i++) { // Skip the header row
+        const row = rows[i];
+        let showRow = false;
+
+        // Check each cell in the row
+        const cells = row.getElementsByTagName('td');
+        for (let j = 0; j < cells.length; j++) {
+            if (cells[j].innerText.toLowerCase().indexOf(filter) > -1) {
+                showRow = true;
+                break;
+            }
+        }
+
+        // Hide or show the row
+        row.style.display = showRow ? '' : 'none';
+    }
+}
+
+
+
+
+
+// Show order details in a modal
+function showOrderDetails(orderId) {
+    fetch(`https://dc-1-fqlb.onrender.com/admin/orders/${orderId}`)
+        .then(res => res.json())
+        .then(order => {
+            const orderDetailsDiv = document.getElementById('order-details-content');
+            const itemsDetails = order.items.map(item => `
+                <div>
+                    <img src="${item.mainImage}" alt="${item.title}" style="width: 50px; height: 50px; object-fit: cover; margin-right: 10px;">
+                    ${item.title} (Quantity: ${item.quantity}, Price: ₹${item.price})
+                </div>`).join('');
+            const totalAmount = order.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+            orderDetailsDiv.innerHTML = `
+                <p><strong>Order ID:</strong> ${order._id}</p>
+                <p><strong>Customer:</strong> ${order.fullName}</p>
+                <p><strong>Address:</strong> ${order.address}, ${order.city}, ${order.country} - ${order.postalCode}</p>
+                <p><strong>Phone:</strong> ${order.phone}</p>
+                <p><strong>Products:</strong></p>
+                <div>${itemsDetails}</div>
+                <p><strong>Total Amount:</strong> ₹${totalAmount}</p>
+                <p><strong>Status:</strong> ${order.status}</p>
+                <p><strong>Tracking:</strong> ${order.trackingDetails?.status || 'Not Available'}</p>
+            `;
+            document.getElementById('order-details-modal').style.display = 'flex';
+        })
+        .catch(error => console.error('Error fetching order details:', error));
+}
+
+// Close modal
+function closeModal() {
+    document.getElementById('order-details-modal').style.display = 'none';
+}
+
+
+        
+    </script>
+</body>
+</html>

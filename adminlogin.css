@@ -1,0 +1,54 @@
+/* Style for the dropdown menu container */
+#user-nav .dropdown-menu {
+    display: none; /* Hidden by default */
+    position: absolute; /* Positioned relative to the parent container */
+    background-color: #ffffff; /* White background */
+    border: 1px solid #ddd; /* Light gray border */
+    padding: 8px 0; /* Vertical padding around items */
+    list-style-type: none; /* Remove default list bullets */
+    margin: 0; /* Remove any default margins */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for a floating effect */
+    z-index: 1000; /* Ensure it appears above other content */
+    border-radius: 4px; /* Optional: Round the corners */
+  }
+  
+  /* Style for individual <li> items inside the dropdown */
+  #user-nav .dropdown-menu li {
+    padding: 8px 16px; /* Padding around each item */
+    margin: 0; /* Remove margin between items */
+    border-bottom: 1px solid #f1f1f1; /* Light border between items */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+  }
+  
+  /* Remove border from the last item */
+  #user-nav .dropdown-menu li:last-child {
+    border-bottom: none;
+  }
+  
+  /* Hover effect for list items */
+  #user-nav .dropdown-menu li:hover {
+    background-color: #f0f0f0; /* Light gray background on hover */
+    cursor: pointer; /* Pointer cursor to indicate interactivity */
+  }
+  
+  /* Style for links inside <li> elements */
+  #user-nav .dropdown-menu li a {
+    text-decoration: none; /* Remove underline from links */
+    color: #333; /* Dark color for text */
+    display: block; /* Make the link fill the <li> */
+    padding: 8px 0; /* Add padding around links */
+    transition: color 0.3s ease, background-color 0.3s ease; /* Smooth transition on hover */
+  }
+  
+  /* Hover effect for links inside <li> */
+  #user-nav .dropdown-menu li a:hover {
+    color: #007bff; /* Blue text color on hover */
+    background-color: #e9ecef; /* Light blue background on hover */
+  }
+  
+  /* Optional: Add an active state to the My Account link (optional) */
+  #user-nav .dropdown-menu li a.active {
+    color: #007bff; /* Active state blue color */
+    font-weight: bold; /* Optional: Make active link bold */
+  }
+  

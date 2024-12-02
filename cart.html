@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - DC Creation</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="adminlogin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!--GOOGLE FONTS-->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Play&display=swap" rel="stylesheet">
+    <style>
+          /* Main container styling */
+          main {
+            padding: 30px 50px;
+        }
+
+        /* Navbar general styling */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #333;
+            padding: 10px 20px;
+            position: relative;
+            /* Ensure it doesn't overlap with other content */
+        }
+
+        .logo {
+            margin-right: auto;
+            /* Ensures logo takes space to avoid overlap */
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            gap: 15px;
+            padding: 0;
+            margin: 0;
+        }
+
+
+        .navbar li {
+            position: relative;
+        }
+
+        /* Hamburger Icon */
+        .hamburger {
+            display: none;
+            font-size: 30px;
+            cursor: pointer;
+            color: white;
+            margin-left: 20px;
+            /* Add margin to the left */
+        }
+
+        /* Side Navigation Styling */
+        .sidenav {
+            height: auto;
+            width: 0;
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            right: 0;
+            background-color: #111;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: auto;
+            border-radius: 10px;
+        }
+
+        .sidenav a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+        }
+
+
+        .sidenav a:hover {
+            color: #f1f1f1;
+        }
+
+        .sidenav .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+
+        /* Responsive Navbar and Sidenav */
+        @media (max-width: 768px) {
+            .navbar ul {
+                display: none;
+            }
+
+            .hamburger {
+                display: block;
+                /* Show hamburger in small screen */
+            }
+
+            .navbar {
+                padding: 10px;
+                /* Adjust padding for smaller screens */
+            }
+        }
+
+        /* Mobile-specific adjustments */
+        @media (max-width: 480px) {
+            .sidenav a {
+                font-size: 18px;
+            }
+        }
+        /* Add styles for cart page here */
+        body {
+            font-family: 'Play', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+       /* General Container Styles */
+#cartItems {
+    margin: 20px auto;
+    max-width: 800px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Cart Item Styles */
+.cart-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.cart-item:last-child {
+    border-bottom: none;
+}
+
+.cart-item img {
+    width: 100px;
+    height: auto;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.cart-item div {
+    flex: 1;
+    margin-left: 20px;
+}
+
+.cart-item h4 {
+    font-size: 18px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.cart-item p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+/* Remove Button */
+.cart-item button {
+    padding: 5px 10px;
+    font-size: 14px;
+    color: #fff;
+    background-color: #ff4d4d;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.cart-item button:hover {
+    background-color: #e60000;
+}
+
+/* Summary Section */
+.cart-summary {
+    margin: 20px auto;
+    max-width: 800px;
+    padding: 10px;
+    text-align: right;
+    font-size: 16px;
+}
+
+.cart-summary p {
+    margin: 10px 0;
+    font-weight: bold;
+    color: #333;
+}
+
+.cart-summary span {
+    color: #555;
+    font-weight: normal;
+}
+
+/* Grand Total */
+.cart-summary .grand-total {
+    font-size: 18px;
+    color: #000;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+#checkoutContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 400px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+}
+
+#checkoutButton {
+    background-color: #007BFF;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    max-width: 300px;
+}
+
+#checkoutButton:hover {
+    background-color: #0056b3;
+}
+
+.continue-shopping {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.continue-shopping-btn {
+    background-color: #28A745;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.continue-shopping-btn:hover {
+    background-color: #218838;
+}
+
+    
+    </style>
+</head>
+<body>
+  <!-- Header Section -->
+  <header>
+    <div class="top-bar">
+        <p>+91 9737833333 | info@abcd.com</p>
+    </div>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="LOGO.jpeg" alt="Logo">
+        </div>
+        <span class="hamburger" onclick="openNav()">&#9776;</span>
+        <ul id="navbar-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="aboutus.html">About Us</a></li>
+            <li><a href="mainproduct.html">Collections</a></li>
+            <li><a href="contactus.html">Contact Us</a></li>
+            
+        </ul>
+        <li  id="user-nav">
+            <a href="#" id="login-link">Login</a> <!-- Default Login Link -->
+          </li>
+        <li><a href="cart.html" id="cartIcon">
+            <i class="fa fa-shopping-cart"></i> <span id="cartCount">0</span>
+        </a></li>
+    </nav>
+</header>
+<!-- Side Navigation for Mobile -->
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="index.html">Home</a>
+    <a href="aboutus.html">About Us</a>
+    <a href="mainproduct.html">Collections</a>
+    <a href="contactus.html">Contact Us</a>
+    
+</div>
+
+<div id="login-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="close-modal">&times;</span>
+      <div class="form-container">
+        <div class="form-header">
+          <button id="login-btn" class="active">Login</button>
+          <button id="register-btn">Register</button>
+        </div>
+        <form id="login-form" class="active">
+          <h2>Login</h2>
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" placeholder="Enter your email" required />
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" placeholder="Enter your password" required />
+          <button type="button" id="login-submit" class="submit-btn">Login</button>
+          <p><a href="#" id="forgot-password-link">Forgot Password?</a></p>
+        </form>
+        <form id="register-form">
+          <h2>Register</h2>
+          <label for="register-name">Name</label>
+          <input type="text" id="register-name" placeholder="Enter your name" required />
+          <label for="register-email">Email</label>
+          <input type="email" id="register-email" placeholder="Enter your email" required />
+          <label for="register-password">Password</label>
+          <input type="password" id="register-password" placeholder="Create a password" required />
+          <button type="button" id="register-submit" class="submit-btn">Register</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div id="forgot-password-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="close-forgot-password-modal">&times;</span>
+      <h2>Reset Password</h2>
+  
+      <!-- Forgot Password Form -->
+      <form id="forgot-password-form">
+        <label for="reset-email">Email</label>
+        <input type="email" id="reset-email" placeholder="Enter your email" required />
+        <button type="button" id="reset-password-submit" class="submit-btn">Send Reset Link</button>
+      </form>
+    </div>
+  </div>
+
+  
+  <div id="cartItems">
+    
+</div>
+
+<div class="cart-summary">
+    <p>Subtotal: <span id="subtotalAmount">₹0</span></p>
+    <p>GST (5%): <span id="gstAmount">₹0</span></p>
+    <p class="grand-total">Grand Total: <span id="grandTotalAmount">₹0</span></p>
+</div>
+
+
+   <!-- Checkout Button -->
+<div id="checkoutContainer">
+    <button id="checkoutButton" onclick="goToCheckout()">Proceed to Checkout</button>
+    <div class="continue-shopping">
+        <button onclick="window.location.href='mainproduct.html'" class="continue-shopping-btn">
+            Continue Shopping
+        </button>
+    </div>
+</div>
+
+    <script src="cart.js"></script>
+    <script src="script.js"></script>
+    <script src="myaccountlogin.js"></script>
+
+   <!-- <script>
+        const loadCart = () => {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartItemsContainer = document.getElementById('cartItems');
+            cartItemsContainer.innerHTML = '';
+
+            let subtotal = 0;
+
+            cart.forEach(item => {
+                const total = item.price * item.quantity;
+                subtotal += total;
+ 
+                cartItemsContainer.innerHTML += `
+                    <div class="cart-item">
+                        <img src="${item.mainImage}" alt="${item.title}">
+                        <div>${item.title}</div>
+                        <div>Quantity: ${item.quantity}</div>
+                        <div>Price: ₹${item.price}</div>
+                        <div>Total: ₹${total}</div>
+                        <button onclick="removeFromCart('${item.title}')">Remove</button>
+                    </div>
+                `;
+            });
+
+            // Calculate GST and Grand Total
+            const gst = subtotal * 0.05;
+            const grandTotal = subtotal + gst;
+
+            cartItemsContainer.innerHTML += `
+                <div class="cart-total">Subtotal: ₹${subtotal.toFixed(2)}</div>
+                <div class="cart-total">GST (5%): ₹${gst.toFixed(2)}</div>
+                <div class="cart-total">Grand Total: ₹${grandTotal.toFixed(2)}</div>
+            `;
+
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p>Your cart is empty!</p>';
+            }
+        };
+
+        const removeFromCart = (title) => {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart = cart.filter(item => item.title !== title);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            loadCart(); // Refresh the cart display
+        };
+
+        const clearCart = () => {
+            localStorage.removeItem('cart');
+            loadCart(); // Refresh the cart display
+        };
+
+        // Load the cart when the page loads
+        window.onload = loadCart;
+        
+        function goToCheckout() {
+    window.location.href = 'checkout.html'; // Change this to your checkout page URL
+}
+    </script> -->
+</body>
+</html>

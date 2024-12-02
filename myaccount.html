@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DC Creation</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="adminlogin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Play&display=swap" rel="stylesheet">
+    <style>
+/* General container styles */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Main heading */
+.container h1 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Section styles */
+.section {
+    margin-bottom: 30px;
+}
+
+.section h2 {
+    font-size: 1.5rem;
+    color: #555;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #007bff;
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+/* Profile information styles */
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Labels for input fields */
+.profile-info label {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #333;
+}
+
+/* Input fields */
+.profile-info input[type="text"],
+.profile-info input[type="email"],
+.profile-info textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 0.95rem;
+    color: #555;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease;
+}
+
+/* Input field focus state */
+.profile-info input[type="text"]:focus,
+.profile-info input[type="email"]:focus,
+.profile-info textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Readonly fields */
+.profile-info input[readonly] {
+    background-color: #f0f0f0;
+    cursor: not-allowed;
+}
+
+/* Textarea styles */
+.profile-info textarea {
+    resize: vertical;
+    height: 80px;
+}
+
+/* Submit button */
+.submit-btn {
+    padding: 10px 15px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Hover and active state for submit button */
+.submit-btn:hover {
+    background-color: #0056b3;
+}
+
+.submit-btn:active {
+    transform: scale(0.98);
+}
+
+
+       /* General styles for the container holding all orders */
+#ordersContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    background-color: #f9f9f9; /* Light background for contrast */
+}
+
+/* Individual order card styles */
+.order {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Add hover effect for order cards */
+.order:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Styles for order headings */
+.order h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+/* Styles for paragraph text */
+.order p {
+    margin: 5px 0;
+    font-size: 0.95rem;
+    color: #555;
+}
+
+/* Bold labels within paragraphs */
+.order p strong {
+    color: #222;
+}
+
+/* View details link */
+.order a {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    color: #007bff;
+    background-color: #e9f4ff;
+    border: 1px solid #007bff;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Hover effect for view details link */
+.order a:hover {
+    color: #fff;
+    background-color: #007bff;
+}
+
+    </style>
+</head>
+
+<body>
+      <!-- Header Section -->
+      <header>
+        <div class="top-bar">
+            <p>+91 9737833333 | info@abcd.com</p>
+        </div>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="LOGO.jpeg" alt="Logo">
+            </div>
+            <span class="hamburger" onclick="openNav()">&#9776;</span>
+            <ul id="navbar-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="aboutus.html">About Us</a></li>
+                <li><a href="mainproduct.html">Collections</a></li>
+                <li><a href="contactus.html">Contact Us</a></li>
+                
+            </ul>
+            <li  id="user-nav">
+                <a href="#" id="login-link">Login</a> <!-- Default Login Link -->
+              </li>
+            <li><a href="cart.html" id="cartIcon">
+                <i class="fa fa-shopping-cart"></i> <span id="cartCount">0</span>
+            </a></li>
+        </nav>
+    </header>
+    <!-- Side Navigation for Mobile -->
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="index.html">Home</a>
+        <a href="aboutus.html">About Us</a>
+        <a href="mainproduct.html">Collections</a>
+        <a href="contactus.html">Contact Us</a>
+        
+    </div>
+
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+          <span class="close" id="close-modal">&times;</span>
+          <div class="form-container">
+            <div class="form-header">
+              <button id="login-btn" class="active">Login</button>
+              <button id="register-btn">Register</button>
+            </div>
+            <form id="login-form" class="active">
+              <h2>Login</h2>
+              <label for="login-email">Email</label>
+              <input type="email" id="login-email" placeholder="Enter your email" required />
+              <label for="login-password">Password</label>
+              <input type="password" id="login-password" placeholder="Enter your password" required />
+              <button type="button" id="login-submit" class="submit-btn">Login</button>
+              <p><a href="#" id="forgot-password-link">Forgot Password?</a></p>
+            </form>
+            <form id="register-form">
+              <h2>Register</h2>
+              <label for="register-name">Name</label>
+              <input type="text" id="register-name" placeholder="Enter your name" required />
+              <label for="register-email">Email</label>
+              <input type="email" id="register-email" placeholder="Enter your email" required />
+              <label for="register-password">Password</label>
+              <input type="password" id="register-password" placeholder="Create a password" required />
+              <button type="button" id="register-submit" class="submit-btn">Register</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div id="forgot-password-modal" class="modal">
+        <div class="modal-content">
+          <span class="close" id="close-forgot-password-modal">&times;</span>
+          <h2>Reset Password</h2>
+      
+          <!-- Forgot Password Form -->
+          <form id="forgot-password-form">
+            <label for="reset-email">Email</label>
+            <input type="email" id="reset-email" placeholder="Enter your email" required />
+            <button type="button" id="reset-password-submit" class="submit-btn">Send Reset Link</button>
+          </form>
+        </div>
+      </div>
+      
+      
+
+    <!-- Profile & Orders Section -->
+    <div class="container">
+        <h1>My Account</h1>
+
+        <div class="section">
+            <h2>Profile Information</h2>
+            <div class="profile-info">
+                <label for="full-name">Full Name</label>
+                <input type="text" id="full-name" placeholder="Enter your full name" required>
+
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Enter your email" required readonly>
+
+                <label for="mobile">Mobile Number</label>
+                <input type="text" id="mobile" placeholder="Enter your mobile number" required>
+
+                <label for="billing-address">Billing Address</label>
+                <textarea id="billing-address" placeholder="Enter your billing address" required></textarea>
+
+                <label for="delivery-address">Delivery Address</label>
+                <textarea id="delivery-address" placeholder="Enter your delivery address" required></textarea>
+
+                <button id="update-profile" class="submit-btn">Update Profile</button>
+            </div>
+        </div>
+
+        <div class="section order-history">
+            <h1>My Orders</h1>
+    <div id="ordersContainer"></div>
+        </div>
+    </div>
+
+  
+
+    <script src="myaccountlogin.js"></script>
+    <script src="script.js"></script>
+    <script>
+function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+}
+
+function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+}
+      
+     
+
+// Utility: Save JWT to localStorage
+function saveToken(token) {
+    localStorage.setItem("jwtToken", token);
+}
+
+// Utility: Get User Info from Token
+function getUserFromToken() {
+    const token = localStorage.getItem("jwtToken");
+    if (!token) return null;
+
+    try {
+        const payload = JSON.parse(atob(token.split(".")[1])); // Decode JWT payload
+        return payload; // { id, email, name, etc. }
+    } catch (e) {
+        console.error("Invalid token:", e);
+        return null;
+    }
+}
+
+// Update Navigation Bar Based on Login Status
+function updateNav() {
+    const user = getUserFromToken();
+    const userNav = document.getElementById("user-nav");
+
+    if (!userNav) {
+        console.error("Element with ID 'user-nav' not found.");
+        return;
+    }
+
+    if (user) {
+        userNav.innerHTML = `
+            <a href="#" id="my-account-link">My Account</a>
+            <ul class="dropdown-menu">
+                <li><a href="myaccount.html">My Account</a></li>
+                <li><a href="#" id="logout-link">Logout</a></li>
+            </ul>
+        `;
+
+        const myAccountLink = document.getElementById("my-account-link");
+        const dropdownMenu = document.querySelector(".dropdown-menu");
+
+        // Toggle Dropdown
+        myAccountLink.addEventListener("click", (event) => {
+            event.preventDefault();
+            dropdownMenu.classList.toggle("dropdown-active");
+        });
+
+        // Close Dropdown When Clicking Outside
+        document.addEventListener("click", (event) => {
+            if (!myAccountLink.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                dropdownMenu.classList.remove("dropdown-active");
+            }
+        });
+
+        // Logout Functionality
+        document.getElementById("logout-link").addEventListener("click", () => {
+            localStorage.removeItem("jwtToken");
+            alert("You have logged out.");
+            window.location.reload();
+        });
+    } else {
+        userNav.innerHTML = `<a href="login.html" id="login-link">Login</a>`;
+    }
+}
+
+// Login Functionality
+// document.addEventListener("DOMContentLoaded", () => {
+//     const loginSubmit = document.getElementById("login-submit");
+
+//     if (loginSubmit) {
+//         loginSubmit.addEventListener("click", async () => {
+//             const email = document.getElementById("login-email").value;
+//             const password = document.getElementById("login-password").value;
+
+//             try {
+//                 const response = await fetch(`${API_URL}/auth/login`, {
+//                     method: "POST",
+//                     headers: { "Content-Type": "application/json" },
+//                     body: JSON.stringify({ email, password }),
+//                 });
+
+//                 if (response.ok) {
+//                     const data = await response.json();
+//                     saveToken(data.token);
+//                     alert("Login successful!");
+//                     document.getElementById("login-modal").style.display = "none";
+//                     window.location.reload();
+//                 } else {
+//                     alert("Login failed! Please check your credentials.");
+//                 }
+//             } catch (error) {
+//                 console.error("Error during login:", error);
+//                 alert("An error occurred. Please try again.");
+//             }
+//         });
+//     }
+
+//     // Update Navigation on Page Load
+//     updateNav();
+// });
+
+document.addEventListener('DOMContentLoaded', async () => {
+    const token = localStorage.getItem('jwtToken'); // Correct token key
+
+    if (!token) {
+        console.warn('Token not found.');
+        alert('You must be logged in to view your profile.');
+        return;
+    }
+
+    console.log('Fetching profile with token:', token);
+
+    try {
+        // Decode token for debugging
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        console.log('Decoded token payload:', payload);
+                const response = await fetch('https://dc-1-fqlb.onrender.com/my-orders', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+
+        if (!response.ok) {
+            if (response.status === 401 || response.status === 403) {
+                alert('Session expired. Please log in again.');
+                localStorage.removeItem('token'); // Clear invalid token
+                return;
+            }
+            throw new Error('Failed to fetch orders. Status: ' + response.status);
+        }
+
+        const orders = await response.json();
+        console.log('Fetched orders:', orders);
+
+        const ordersContainer = document.getElementById('ordersContainer');
+        orders.forEach((order) => {
+            const orderElement = document.createElement('div');
+            orderElement.classList.add('order');
+
+            orderElement.innerHTML = `
+    <h3>Order ID: ${order._id}</h3>
+    <p><strong>Date:</strong> ${new Date(order.createdAt).toLocaleDateString()}</p>
+    <p><strong>Status:</strong> ${order.status}</p>
+    <p><strong>Total Items:</strong> ${order.items.length}</p>
+    <p><strong>Total Amount:</strong> ₹${order.items.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2)}</p>
+    ${order.trackingDetails ? `
+        <div class="tracking-info">
+            <p><strong>Tracking Status:</strong> ${order.trackingDetails.status}</p>
+            <p><strong>Last Updated:</strong> ${order.trackingDetails.lastUpdated}</p>
+        </div>
+    ` : ''}
+    <a href="order_confirmation.html?orderId=${order._id}">View Details</a>
+`;
+
+ordersContainer.appendChild(orderElement);
+
+        });
+    } catch (error) {
+        console.error('Error fetching orders:', error);
+        alert('Unable to fetch your orders. Please try again later.');
+    }
+});
+
+// // Load User Data on Page Load
+// document.addEventListener("DOMContentLoaded", () => {
+//   const user = getUserFromToken();
+//   if (user) {
+//     document.getElementById("login-link").innerHTML = `<i class="fa fa-user"></i> My Account`;
+//     fetchUserOrders(); // Fetch orders for logged-in user
+//   }
+// });
+
+async function fetchUserProfile() {
+    const token = localStorage.getItem("jwtToken");
+    if (!token) {
+        alert("Please log in to view your profile.");
+        return;
+    }
+
+    try {
+        console.log("Fetching profile with token:", token); // Debug log
+        const response = await fetch(`${API_URL}/user/profile`, {
+            headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (response.ok) {
+            const user = await response.json();
+            document.getElementById("full-name").value = user.fullName;
+            document.getElementById("email").value = user.email;
+            document.getElementById("mobile").value = user.mobileNumber || "";
+            document.getElementById("billing-address").value = user.billingAddress || "";
+            document.getElementById("delivery-address").value = user.deliveryAddress || "";
+        } else {
+            const contentType = response.headers.get("content-type");
+            if (contentType && contentType.includes("application/json")) {
+                const error = await response.json();
+                alert(error.error || "Failed to fetch profile.");
+            } else {
+                const errorText = await response.text();
+                alert(errorText);
+            }
+        }
+    } catch (error) {
+        console.error("Error fetching profile:", error);
+        alert("An unexpected error occurred. Please try again.");
+    }
+}
+
+// Call the function when the page loads
+document.addEventListener("DOMContentLoaded", fetchUserProfile);
+
+
+document.getElementById("update-profile").addEventListener("click", async () => {
+    const token = localStorage.getItem("jwtToken");
+    if (!token) {
+        alert("Please log in to update your profile.");
+        return;
+    }
+
+    // Get updated values from the form
+    const updatedProfile = {
+        name: document.getElementById("full-name").value,
+        mobile: document.getElementById("mobile").value,
+        billingAddress: document.getElementById("billing-address").value,
+        deliveryAddress: document.getElementById("delivery-address").value,
+    };
+
+    try {
+        const response = await fetch(`${API_URL}/user/update`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(updatedProfile),
+        });
+
+        if (response.ok) {
+            alert("Profile updated successfully!");
+        } else {
+            const error = await response.json();
+            alert(error.message || "Failed to update profile.");
+        }
+    } catch (error) {
+        console.error("Error updating profile:", error);
+    }
+});
+
+
+    </script>
+</body>
+
+</html>

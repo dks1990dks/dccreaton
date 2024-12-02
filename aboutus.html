@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - DC Creation</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="adminlogin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Play&display=swap" rel="stylesheet">
+
+    <style>
+         /* Navbar general styling */
+         .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #333;
+            padding: 10px 20px;
+            position: relative; /* Ensure it doesn't overlap with other content */
+        }
+
+        .logo {
+            margin-right: auto; /* Ensures logo takes space to avoid overlap */
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            gap: 15px;
+            padding: 0;
+            margin: 0;
+        }
+
+
+        .navbar li {
+            position: relative;
+        }
+
+        /* Hamburger Icon */
+        .hamburger {
+            display: none;
+            font-size: 30px;
+            cursor: pointer;
+            color: white;
+            margin-left: 20px; /* Add margin to the left */
+        }
+         /* Side Navigation Styling */
+         .sidenav {
+            height: auto;
+            width: 0;
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            right: 0;
+            background-color: #111;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: auto;
+            border-radius: 10px;
+        }
+        .sidenav a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+        }
+
+
+        .sidenav a:hover {
+            color: #f1f1f1;
+        }
+
+        .sidenav .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+
+        /* Responsive Navbar and Sidenav */
+        @media (max-width: 768px) {
+            .navbar ul {
+                display: none;
+            }
+
+            .hamburger {
+                display: block; /* Show hamburger in small screen */
+            }
+
+            .navbar {
+                padding: 10px; /* Adjust padding for smaller screens */
+            }
+        }
+
+        /* Mobile-specific adjustments */
+        @media (max-width: 480px) {
+            .sidenav a {
+                font-size: 18px;
+            }
+        }
+
+        
+        /* Page-specific styles */
+        .about-section {
+            background-color: #f4f4f4;
+            padding: 50px;
+            text-align: center;
+        }
+
+        .about-section h1 {
+            font-size: 3rem;
+            color: #ff5722;
+            margin-bottom: 20px;
+        }
+
+        .about-section p {
+            font-size: 1.2rem;
+            color: #666;
+            max-width: 900px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .team-section {
+            background-color: #fff;
+            padding: 50px;
+            text-align: center;
+        }
+
+        .team-section h2 {
+            font-size: 2.2rem;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .team-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .team-member {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 250px;
+            text-align: center;
+        }
+
+        .team-member img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .team-member h3 {
+            margin: 15px 0 5px;
+            font-size: 1.5rem;
+            color: #333;
+        }
+
+        .team-member p {
+            font-size: 1rem;
+            color: #666;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .team-grid {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .team-member {
+                width: 80%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+     <!-- Header Section -->
+     <header>
+        <div class="top-bar">
+            <p>+91 9737833333 | info@abcd.com</p>
+        </div>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="LOGO.jpeg" alt="Logo">
+            </div>
+            <span class="hamburger" onclick="openNav()">&#9776;</span>
+            <ul id="navbar-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="aboutus.html">About Us</a></li>
+                <li><a href="mainproduct.html">Collections</a></li>
+                <li><a href="contactus.html">Contact Us</a></li>
+                
+            </ul>
+            <li  id="user-nav">
+                <a href="#" id="login-link">Login</a> <!-- Default Login Link -->
+              </li>
+            <li><a href="cart.html" id="cartIcon">
+                <i class="fa fa-shopping-cart"></i> <span id="cartCount">0</span>
+            </a></li>
+        </nav>
+    </header>
+    <!-- Side Navigation for Mobile -->
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a href="index.html">Home</a>
+        <a href="aboutus.html">About Us</a>
+        <a href="mainproduct.html">Collections</a>
+        <a href="contactus.html">Contact Us</a>
+        
+    </div>
+
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+          <span class="close" id="close-modal">&times;</span>
+          <div class="form-container">
+            <div class="form-header">
+              <button id="login-btn" class="active">Login</button>
+              <button id="register-btn">Register</button>
+            </div>
+            <form id="login-form" class="active">
+              <h2>Login</h2>
+              <label for="login-email">Email</label>
+              <input type="email" id="login-email" placeholder="Enter your email" required />
+              <label for="login-password">Password</label>
+              <input type="password" id="login-password" placeholder="Enter your password" required />
+              <button type="button" id="login-submit" class="submit-btn">Login</button>
+              <p><a href="#" id="forgot-password-link">Forgot Password?</a></p>
+            </form>
+            <form id="register-form">
+              <h2>Register</h2>
+              <label for="register-name">Name</label>
+              <input type="text" id="register-name" placeholder="Enter your name" required />
+              <label for="register-email">Email</label>
+              <input type="email" id="register-email" placeholder="Enter your email" required />
+              <label for="register-password">Password</label>
+              <input type="password" id="register-password" placeholder="Create a password" required />
+              <button type="button" id="register-submit" class="submit-btn">Register</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div id="forgot-password-modal" class="modal">
+        <div class="modal-content">
+          <span class="close" id="close-forgot-password-modal">&times;</span>
+          <h2>Reset Password</h2>
+      
+          <!-- Forgot Password Form -->
+          <form id="forgot-password-form">
+            <label for="reset-email">Email</label>
+            <input type="email" id="reset-email" placeholder="Enter your email" required />
+            <button type="button" id="reset-password-submit" class="submit-btn">Send Reset Link</button>
+          </form>
+        </div>
+      </div>
+    
+
+    <!-- About Section -->
+    <section class="about-section">
+        <h1>About Us</h1>
+        <p>
+            Welcome to AGOG, where we blend traditional craftsmanship with modern design to offer you a unique shopping experience. We specialize in high-quality apparel, from elegant sarees to stunning gowns, all carefully curated to meet your fashion needs. 
+            Our mission is to deliver not just products, but a sense of style and confidence to everyone who chooses us. With years of experience in the fashion industry, we aim to provide premium products and exceptional customer service.
+        </p>
+    </section>
+<!-- WhatsApp Floating Button -->
+<a href="https://wa.me/9737833333" class="whatsapp-float" target="_blank">
+    <img src="WhatsApp_icon.png" alt="WhatsApp" />
+</a>
+    <!-- Team Section -->
+    <section class="team-section">
+        <h2>Meet Our Team</h2>
+        <div class="team-grid">
+            <div class="team-member">
+                <img src="team-member1.jpg" alt="Team Member 1">
+                <h3>John Doe</h3>
+                <p>Founder & CEO</p>
+            </div>
+            <div class="team-member">
+                <img src="team-member2.jpg" alt="Team Member 2">
+                <h3>Jane Smith</h3>
+                <p>Chief Designer</p>
+            </div>
+            <div class="team-member">
+                <img src="team-member3.jpg" alt="Team Member 3">
+                <h3>Emily Johnson</h3>
+                <p>Marketing Head</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="footer">
+            <div class="row">
+                <a href="#"><i class="fa fa-facebook"></i></a>
+                <a href="#"><i class="fa fa-instagram"></i></a>
+                <a href="#"><i class="fa fa-youtube"></i></a>
+                <a href="#"><i class="fa fa-twitter"></i></a>
+            </div>
+
+            <div class="row">
+                <ul>
+                    <li><a href="contactus.html">Contact us</a></li>
+                    <li><a href="mainproduct.html">Our Products</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+
+                </ul>
+            </div>
+
+            <div class="row">
+                <p>&copy; <span id="year"></span> DC Creation. All rights reserved.</p>
+                <p>Website by Deepak-VDC</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="myaccountlogin.js"></script>
+    <script src="cart.js"></script>
+</body>
+
+</html>

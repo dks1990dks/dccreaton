@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin OTP Verification</title>
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+     <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 300px;
+    margin: 100px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+}
+
+input[type="text"] {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+button {
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.message {
+    text-align: center;
+    font-size: 14px;
+    padding-top: 15px;
+}
+
+     </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Admin OTP Verification</h2>
+
+        <!-- Admin OTP Form -->
+        <div id="otpForm" class="form-container">
+            <label for="mobileNumber">Admin Mobile Number:</label>
+            <input type="text" id="mobileNumber" placeholder="Enter Admin Mobile Number" required />
+            <button onclick="sendOtp()">Send OTP</button>
+        </div>
+
+        <!-- OTP Verification -->
+        <div id="otpVerification" class="form-container" style="display:none;">
+            <label for="otp">Enter OTP:</label>
+            <input type="text" id="otp" placeholder="Enter OTP" required />
+            <button onclick="verifyOtp()">Verify OTP</button>
+        </div>
+
+        <div id="message" class="message"></div>
+    </div>
+
+    <script>
+        const ADMIN_MOBILE_NUMBER = '+919737833333';  // Replace with actual admin mobile number
+
+// Function to send OTP to admin's mobile number
+function sendOtp() {
+    const mobileNumber = document.getElementById('mobileNumber').value;
+
+    // Validate mobile number input
+    if (mobileNumber !== ADMIN_MOBILE_NUMBER) {
+        showMessage('Unauthorized access. Invalid mobile number.', 'error');
+        return;
+    }
+
+    fetch('https://dc-1-fqlb.onrender.com/send-admin-otp', {  // Replace with actual backend URL
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ mobileNumber })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showMessage('OTP sent successfully. Please check your mobile.', 'success');
+            document.getElementById('otpForm').style.display = 'none';
+            document.getElementById('otpVerification').style.display = 'block';
+        } else {
+            showMessage(data.message, 'error');
+        }
+    })
+    .catch(error => showMessage('An error occurred. Please try again.', 'error'));
+}
+
+// Function to verify the OTP
+function verifyOtp() {
+    const mobileNumber = document.getElementById('mobileNumber').value;
+    const otp = document.getElementById('otp').value;
+
+    fetch('https://dc-1-fqlb.onrender.com/verify-admin-otp', {  // Replace with actual backend URL
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ mobileNumber, otp })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showMessage('Admin verified successfully.', 'success');
+            window.location.href = 'admin.html';
+        } else {
+            showMessage('Invalid OTP or mobile number.', 'error');
+        }
+    })
+    .catch(error => showMessage('An error occurred. Please try again.', 'error'));
+}
+
+// Function to display messages
+function showMessage(message, type) {
+    const messageDiv = document.getElementById('message');
+    messageDiv.textContent = message;
+    messageDiv.style.color = type === 'error' ? 'red' : 'green';
+}
+
+    </script>
+
+</body>
+</html>
