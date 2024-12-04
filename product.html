@@ -771,31 +771,76 @@ footer .row a:hover {
                     offerTag.style.display = 'none'; // Hide the offer tag if no offer
                 }
 
-                // Update Open Graph and Twitter meta tags
-                document.getElementById('ogTitle').setAttribute('content', product.title);
-                document.getElementById('ogDescription').setAttribute('content', product.description);
-                document.getElementById('ogImage').setAttribute('content', product.mainImage);
-                document.getElementById('ogUrl').setAttribute('content', `https://dc-1-fqlb.onrender.com/products/${product._id}`);
+               // Function to resize the product image dynamically
+const resizeImage = (imageUrl, callback) => {
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
 
-                const twitterCard = document.createElement('meta');
-                twitterCard.setAttribute('name', 'twitter:card');
-                twitterCard.setAttribute('content', 'summary_large_image');
-                document.head.appendChild(twitterCard);
+    const TARGET_WIDTH = 1200;
+    const TARGET_HEIGHT = 630;
 
-                const twitterTitle = document.createElement('meta');
-                twitterTitle.setAttribute('name', 'twitter:title');
-                twitterTitle.setAttribute('content', product.title);
-                document.head.appendChild(twitterTitle);
+    const img = new Image();
+    img.crossOrigin = "anonymous"; // Avoid CORS issues if the image is hosted elsewhere
+    img.onload = () => {
+        // Calculate aspect ratio for cropping
+        const imgAspect = img.width / img.height;
+        const targetAspect = TARGET_WIDTH / TARGET_HEIGHT;
 
-                const twitterDescription = document.createElement('meta');
-                twitterDescription.setAttribute('name', 'twitter:description');
-                twitterDescription.setAttribute('content', product.description);
-                document.head.appendChild(twitterDescription);
+        let sx, sy, sWidth, sHeight;
+        if (imgAspect > targetAspect) {
+            // Image is wider than target
+            sHeight = img.height;
+            sWidth = img.height * targetAspect;
+            sx = (img.width - sWidth) / 2;
+            sy = 0;
+        } else {
+            // Image is taller than target
+            sWidth = img.width;
+            sHeight = img.width / targetAspect;
+            sy = (img.height - sHeight) / 2;
+            sx = 0;
+        }
 
-                const twitterImage = document.createElement('meta');
-                twitterImage.setAttribute('name', 'twitter:image');
-                twitterImage.setAttribute('content', product.mainImage);
-                document.head.appendChild(twitterImage);
+        // Set canvas size to target dimensions
+        canvas.width = TARGET_WIDTH;
+        canvas.height = TARGET_HEIGHT;
+
+        // Draw cropped and resized image
+        ctx.drawImage(img, sx, sy, sWidth, sHeight, 0, 0, TARGET_WIDTH, TARGET_HEIGHT);
+
+        // Pass the resized image as a base64 URL to the callback
+        callback(canvas.toDataURL("image/png"));
+    };
+
+    img.src = imageUrl;
+};
+
+// Update Open Graph and Twitter meta tags
+resizeImage(product.mainImage, (resizedImage) => {
+    document.getElementById("ogTitle").setAttribute("content", product.title);
+    document.getElementById("ogDescription").setAttribute("content", product.description);
+    document.getElementById("ogImage").setAttribute("content", resizedImage); // Use resized image
+    document.getElementById("ogUrl").setAttribute("content", `https://dc-1-fqlb.onrender.com/products/${product._id}`);
+
+    const twitterCard = document.createElement("meta");
+    twitterCard.setAttribute("name", "twitter:card");
+    twitterCard.setAttribute("content", "summary_large_image");
+    document.head.appendChild(twitterCard);
+
+    const twitterTitle = document.createElement("meta");
+    twitterTitle.setAttribute("name", "twitter:title");
+    twitterTitle.setAttribute("content", product.title);
+    document.head.appendChild(twitterTitle);
+
+    const twitterDescription = document.createElement("meta");
+    twitterDescription.setAttribute("name", "twitter:description");
+    twitterDescription.setAttribute("content", product.description);
+    document.head.appendChild(twitterDescription);
+
+    const twitterImage = document.createElement("meta");
+    twitterImage.setAttribute("name", "twitter:image");
+    twitterImage.setAttribute("content", resizedImage); // Use resized image
+    document.head.appendChild(twitterImage);
 
                 // Populate thumbnails
                 const thumbnailsContainer = document.getElementById('thumbnails');
@@ -838,28 +883,30 @@ footer .row a:hover {
                 };
             };
 
-            const setupShareLinks = (productTitle, productUrl, productImage) => {
-                const ogUrl = `https://dc-1-fqlb.onrender.com/products/html/${productId}`;
-                document.getElementById('facebookShare').addEventListener('click', () => {
-                    const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(ogUrl)}`;
-                    window.open(shareUrl, '_blank');
-                });
+           // Setup share links with resized product image
+const setupShareLinks = (productTitle, productUrl, originalImage) => {
+    resizeImage(originalImage, (resizedImage) => {
+        const ogUrl = `https://dc-1-fqlb.onrender.com/products/html/${productId}`;
+        
+        document.getElementById("facebookShare").addEventListener("click", () => {
+            const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(ogUrl)}`;
+            window.open(shareUrl, "_blank");
+        });
 
-                document.getElementById('twitterShare').addEventListener('click', () => {
-                    const shareText = encodeURIComponent('Check out this amazing product!');
-                    const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(ogUrl)}&text=${shareText}`;
-                    window.open(twitterUrl, '_blank');
-                });
+        document.getElementById("twitterShare").addEventListener("click", () => {
+            const shareText = encodeURIComponent("Check out this amazing product!");
+            const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(ogUrl)}&text=${shareText}&image=${encodeURIComponent(resizedImage)}`;
+            window.open(twitterUrl, "_blank");
+        });
 
-                document.getElementById('whatsappShare').href = `https://wa.me/?text=${encodeURIComponent(productTitle + " " + productUrl)}`;
-                document.getElementById('linkedinShare').addEventListener('click', () => {
-                    const linkedInUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(ogUrl)}`;
-                    window.open(linkedInUrl, '_blank');
-                });
+        document.getElementById("whatsappShare").href = `https://wa.me/?text=${encodeURIComponent(productTitle + " " + productUrl)}`;
+        document.getElementById("linkedinShare").addEventListener("click", () => {
+            const linkedInUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(ogUrl)}`;
+            window.open(linkedInUrl, "_blank");
+        });
 
-                document.getElementById('emailShare').href = `mailto:?subject=${encodeURIComponent(productTitle)}&body=Check out this product: ${encodeURIComponent(productUrl)}`;
-            };
-
+        document.getElementById("emailShare").href = `mailto:?subject=${encodeURIComponent(productTitle)}&body=Check out this product: ${encodeURIComponent(productUrl)}`;
+    });
             const startAutoSlide = (thumbnails) => {
                 clearInterval(interval);
                 interval = setInterval(() => {
