@@ -706,437 +706,253 @@ footer .row a:hover {
     <script src="myaccountlogin.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const productId = new URLSearchParams(window.location.search).get('id');
+    const productId = new URLSearchParams(window.location.search).get('id');
 
-            let currentIndex = 0;
-            let interval;
-            let cartCount = 0;
-            let availableStock = 0; // Track available stock
+    let currentIndex = 0;
+    let interval;
+    let cartCount = 0;
+    let availableStock = 0; // Track available stock
 
-            const fetchProductDetails = async () => {
-                try {
-                    const response = await fetch(`https://dc-1-fqlb.onrender.com/api/products/${productId}`);
-                    const product = await response.json();
-                    availableStock = product.stock; // Set available stock from product data
-                    renderProductDetails(product);
-                } catch (error) {
-                    console.error('Error fetching product details:', error);
-                }
-            };
-
-            const renderProductDetails = (product) => {
-                document.getElementById('mainImage').src = product.mainImage;
-                document.getElementById('productTitle').innerText = product.title;
-                document.getElementById('productDescription').innerText = product.description;
-
-                // Stock status check
-                const stockTag = document.getElementById('stockTag');
-                const addToCartBtn = document.getElementById('addToCartBtn');
-                const buyNowBtn = document.getElementById('buyNowBtn');
-
-                if (product.stock > 0) {
-                    stockTag.innerText = "In Stock";
-                    addToCartBtn.disabled = false;
-                    buyNowBtn.disabled = false;
-                } else {
-                    stockTag.innerText = "Out of Stock";
-                    addToCartBtn.disabled = true;
-                    buyNowBtn.disabled = true;
-                    disableButtons(); // Disable buttons if out of stock
-                }
-
-                // Display original and discounted price
-                const originalPriceEl = document.getElementById('originalPrice');
-                const discountedPriceEl = document.getElementById('discountedPrice');
-                const offerTag = document.getElementById('offerTag');
-                const hasOffer = product.offerPercentage && product.offerPercentage > 0;
-
-                if (hasOffer) {
-                    const discountedPrice = product.price - (product.price * (product.offerPercentage / 100));
-                    originalPriceEl.innerText = `₹${product.price}`;
-                    discountedPriceEl.innerText = `₹${discountedPrice.toFixed(2)}`;
-                    discountedPriceEl.style.display = 'inline';
-
-                    // Apply strikethrough to the original price if there is an offer
-                    originalPriceEl.classList.add('discounted-price');
-
-
-                    // Display offer tag with the offer percentage
-                    offerTag.innerText = `${product.offerPercentage}% OFF`;
-                    offerTag.style.display = 'inline-block'; // Ensure it's visible
-                } else {
-                    // Only show the original price if no offer
-                    originalPriceEl.innerText = `₹${product.price}`;
-                    discountedPriceEl.style.display = 'none';
-                    offerTag.style.display = 'none'; // Hide the offer tag if no offer
-                }
-
-               // Function to resize the product image dynamically
-const resizeImage = (imageUrl, callback) => {
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-
-    const TARGET_WIDTH = 1200;
-    const TARGET_HEIGHT = 630;
-
-    const img = new Image();
-    img.crossOrigin = "anonymous"; // Avoid CORS issues if the image is hosted elsewhere
-    img.onload = () => {
-        // Calculate aspect ratio for cropping
-        const imgAspect = img.width / img.height;
-        const targetAspect = TARGET_WIDTH / TARGET_HEIGHT;
-
-        let sx, sy, sWidth, sHeight;
-        if (imgAspect > targetAspect) {
-            // Image is wider than target
-            sHeight = img.height;
-            sWidth = img.height * targetAspect;
-            sx = (img.width - sWidth) / 2;
-            sy = 0;
-        } else {
-            // Image is taller than target
-            sWidth = img.width;
-            sHeight = img.width / targetAspect;
-            sy = (img.height - sHeight) / 2;
-            sx = 0;
+    const fetchProductDetails = async () => {
+        try {
+            const response = await fetch(`https://dc-1-fqlb.onrender.com/api/products/${productId}`);
+            const product = await response.json();
+            availableStock = product.stock; // Set available stock from product data
+            renderProductDetails(product);
+        } catch (error) {
+            console.error('Error fetching product details:', error);
         }
-
-        // Set canvas size to target dimensions
-        canvas.width = TARGET_WIDTH;
-        canvas.height = TARGET_HEIGHT;
-
-        // Draw cropped and resized image
-        ctx.drawImage(img, sx, sy, sWidth, sHeight, 0, 0, TARGET_WIDTH, TARGET_HEIGHT);
-
-        // Pass the resized image as a base64 URL to the callback
-        callback(canvas.toDataURL("image/png"));
     };
 
-    img.src = imageUrl;
-};
+    const renderProductDetails = (product) => {
+        document.getElementById('mainImage').src = product.mainImage;
+        document.getElementById('productTitle').innerText = product.title;
+        document.getElementById('productDescription').innerText = product.description;
 
-// Update Open Graph and Twitter meta tags
-resizeImage(product.mainImage, (resizedImage) => {
-    document.getElementById("ogTitle").setAttribute("content", product.title);
-    document.getElementById("ogDescription").setAttribute("content", product.description);
-    document.getElementById("ogImage").setAttribute("content", resizedImage); // Use resized image
-    document.getElementById("ogUrl").setAttribute("content", `https://dc-1-fqlb.onrender.com/products/${product._id}`);
+        // Stock status check
+        const stockTag = document.getElementById('stockTag');
+        const addToCartBtn = document.getElementById('addToCartBtn');
+        const buyNowBtn = document.getElementById('buyNowBtn');
 
-    const twitterCard = document.createElement("meta");
-    twitterCard.setAttribute("name", "twitter:card");
-    twitterCard.setAttribute("content", "summary_large_image");
-    document.head.appendChild(twitterCard);
+        if (product.stock > 0) {
+            stockTag.innerText = "In Stock";
+            addToCartBtn.disabled = false;
+            buyNowBtn.disabled = false;
+        } else {
+            stockTag.innerText = "Out of Stock";
+            addToCartBtn.disabled = true;
+            buyNowBtn.disabled = true;
+            disableButtons(); // Disable buttons if out of stock
+        }
 
-    const twitterTitle = document.createElement("meta");
-    twitterTitle.setAttribute("name", "twitter:title");
-    twitterTitle.setAttribute("content", product.title);
-    document.head.appendChild(twitterTitle);
+        // Display original and discounted price
+        const originalPriceEl = document.getElementById('originalPrice');
+        const discountedPriceEl = document.getElementById('discountedPrice');
+        const offerTag = document.getElementById('offerTag');
+        const hasOffer = product.offerPercentage && product.offerPercentage > 0;
 
-    const twitterDescription = document.createElement("meta");
-    twitterDescription.setAttribute("name", "twitter:description");
-    twitterDescription.setAttribute("content", product.description);
-    document.head.appendChild(twitterDescription);
+        if (hasOffer) {
+            const discountedPrice = product.price - (product.price * (product.offerPercentage / 100));
+            originalPriceEl.innerText = `₹${product.price}`;
+            discountedPriceEl.innerText = `₹${discountedPrice.toFixed(2)}`;
+            discountedPriceEl.style.display = 'inline';
 
-    const twitterImage = document.createElement("meta");
-    twitterImage.setAttribute("name", "twitter:image");
-    twitterImage.setAttribute("content", resizedImage); // Use resized image
-    document.head.appendChild(twitterImage);
+            // Apply strikethrough to the original price if there is an offer
+            originalPriceEl.classList.add('discounted-price');
 
-                // Populate thumbnails
-                const thumbnailsContainer = document.getElementById('thumbnails');
-                thumbnailsContainer.innerHTML = '';
-                const thumbnails = [product.thumbnail1, product.thumbnail2, product.thumbnail3, product.mainImage];
+            // Display offer tag with the offer percentage
+            offerTag.innerText = `${product.offerPercentage}% OFF`;
+            offerTag.style.display = 'inline-block'; // Ensure it's visible
+        } else {
+            // Only show the original price if no offer
+            originalPriceEl.innerText = `₹${product.price}`;
+            discountedPriceEl.style.display = 'none';
+            offerTag.style.display = 'none'; // Hide the offer tag if no offer
+        }
 
-                thumbnails.forEach((thumb, index) => {
-                    const thumbnailDiv = document.createElement('div');
-                    thumbnailDiv.className = 'thumbnail';
-                    thumbnailDiv.innerHTML = `<img src="${thumb}" alt="Thumbnail of ${product.title}">`;
-                    thumbnailDiv.onclick = () => changeMainImage(thumb, index);
-                    thumbnailsContainer.appendChild(thumbnailDiv);
-                });
+        // Update Open Graph and Twitter meta tags
+        document.getElementById('ogTitle').setAttribute('content', product.title);
+        document.getElementById('ogDescription').setAttribute('content', product.description);
+        document.getElementById('ogImage').setAttribute('content', product.mainImage);
+        document.getElementById('ogUrl').setAttribute('content', `https://dc-1-fqlb.onrender.com/products/${product._id}`);
 
-                // Start Auto Slide
-                startAutoSlide(thumbnails);
+        const twitterCard = document.createElement('meta');
+        twitterCard.setAttribute('name', 'twitter:card');
+        twitterCard.setAttribute('content', 'summary_large_image');
+        document.head.appendChild(twitterCard);
 
-                document.getElementById('shareBtn').onclick = () => {
-                    const sharePopup = document.getElementById('sharePopup');
-                    sharePopup.style.display = sharePopup.style.display === 'block' ? 'none' : 'block';
-                };
+        const twitterTitle = document.createElement('meta');
+        twitterTitle.setAttribute('name', 'twitter:title');
+        twitterTitle.setAttribute('content', product.title);
+        document.head.appendChild(twitterTitle);
 
-                // Setup share links with product data
-                setupShareLinks(product.title, window.location.href, product.mainImage);
+        const twitterDescription = document.createElement('meta');
+        twitterDescription.setAttribute('name', 'twitter:description');
+        twitterDescription.setAttribute('content', product.description);
+        document.head.appendChild(twitterDescription);
 
-                // Set button click event for "Add to Cart"
-                addToCartBtn.onclick = () => {
-                    addToCart(product._id, product.title, product.mainImage, product.price, product.stock);
-                };
+        const twitterImage = document.createElement('meta');
+        twitterImage.setAttribute('name', 'twitter:image');
+        twitterImage.setAttribute('content', product.mainImage);
+        document.head.appendChild(twitterImage);
 
-                // Set button click event for "Buy Now"
-                buyNowBtn.onclick = () => {
-                    if (product.stock > 0) {
-                        addToCart(product._id, product.title, product.mainImage, product.price, product.stock);
-                        // Redirect to the cart or checkout page
-                        window.location.href = 'checkout.html'; // Change this to your checkout page URL
-                    } else {
-                        alert("Product is out of stock, cannot proceed to buy.");
-                    }
-                };
-            };
+        // Populate thumbnails
+        const thumbnailsContainer = document.getElementById('thumbnails');
+        thumbnailsContainer.innerHTML = '';
+        const thumbnails = [product.thumbnail1, product.thumbnail2, product.thumbnail3, product.mainImage];
 
-           // Setup share links with resized product image
-const setupShareLinks = (productTitle, productUrl, originalImage) => {
-    resizeImage(originalImage, (resizedImage) => {
-        const ogUrl = `https://dc-1-fqlb.onrender.com/products/html/${productId}`;
-        
-        document.getElementById("facebookShare").addEventListener("click", () => {
-            const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(ogUrl)}`;
-            window.open(shareUrl, "_blank");
+        thumbnails.forEach((thumb, index) => {
+            const thumbnailDiv = document.createElement('div');
+            thumbnailDiv.className = 'thumbnail';
+            thumbnailDiv.innerHTML = `<img src="${thumb}" alt="Thumbnail of ${product.title}">`;
+            thumbnailDiv.onclick = () => changeMainImage(thumb, index);
+            thumbnailsContainer.appendChild(thumbnailDiv);
         });
 
-        document.getElementById("twitterShare").addEventListener("click", () => {
-            const shareText = encodeURIComponent("Check out this amazing product!");
-            const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(ogUrl)}&text=${shareText}&image=${encodeURIComponent(resizedImage)}`;
-            window.open(twitterUrl, "_blank");
-        });
+        // Start Auto Slide
+        startAutoSlide(thumbnails);
 
-        document.getElementById("whatsappShare").href = `https://wa.me/?text=${encodeURIComponent(productTitle + " " + productUrl)}`;
-        document.getElementById("linkedinShare").addEventListener("click", () => {
-            const linkedInUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(ogUrl)}`;
-            window.open(linkedInUrl, "_blank");
-        });
-
-        document.getElementById("emailShare").href = `mailto:?subject=${encodeURIComponent(productTitle)}&body=Check out this product: ${encodeURIComponent(productUrl)}`;
-    });
-            const startAutoSlide = (thumbnails) => {
-                clearInterval(interval);
-                interval = setInterval(() => {
-                    currentIndex = (currentIndex + 1) % thumbnails.length;
-                    changeMainImage(thumbnails[currentIndex], currentIndex);
-                }, 3000);
-            };
-
-            const changeMainImage = (src, index) => {
-                const mainImage = document.getElementById('mainImage');
-                mainImage.style.opacity = 0;
-                setTimeout(() => {
-                    mainImage.src = src;
-                    mainImage.style.opacity = 1;
-                }, 300);
-
-                currentIndex = index;
-
-                const thumbnails = document.querySelectorAll('.thumbnail');
-                thumbnails.forEach((thumbnail, i) => {
-                    if (i === index) {
-                        thumbnail.classList.add('active');
-                    } else {
-                        thumbnail.classList.remove('active');
-                    }
-                });
-
-                resetAutoSlide();
-            };
-
-            const resetAutoSlide = () => {
-                clearInterval(interval);
-                const thumbnails = Array.from(document.querySelectorAll('.thumbnail img')).map(img => img.src);
-                startAutoSlide(thumbnails);
-            };
-
-            const addToCart = (productId, title, mainImage, price, stock) => {
-                let cart = JSON.parse(localStorage.getItem('cart')) || [];
-                const existingProductIndex = cart.findIndex(item => item.productId === productId);
-
-                if (existingProductIndex > -1) {
-                    if (cart[existingProductIndex].quantity < stock) {
-                        cart[existingProductIndex].quantity += 1;
-                        alert("Product added to cart!");
-                        updateStockStatus(stock); // Update stock status
-                    } else {
-                        alert("Product is out of stock.");
-                        disableButtons(); // Disable buttons if out of stock
-                    }
-                } else {
-                    if (stock > 0) {
-                        cart.push({ productId, title, mainImage, price, quantity: 1 });
-                        alert("Product added to cart!");
-                        updateStockStatus(stock); // Update stock status
-                    } else {
-                        alert("Product is out of stock.");
-                        disableButtons(); // Disable buttons if out of stock
-                    }
-                }
-
-                localStorage.setItem('cart', JSON.stringify(cart));
-                updateCartCount();
-            };
-
-            const updateStockStatus = (stock) => {
-                const stockTag = document.getElementById('stockTag');
-                if (stock <= 0) {
-                    stockTag.innerText = "Out of Stock";
-                    document.getElementById('addToCartBtn').disabled = true;
-                    document.getElementById('buyNowBtn').disabled = true;
-                } else {
-                    stockTag.innerText = "In Stock";
-                }
-            };
-
-            const disableButtons = () => {
-                document.getElementById('addToCartBtn').disabled = true;
-                document.getElementById('buyNowBtn').disabled = true;
-            };
-
-            const updateCartCount = () => {
-                const cartCountDisplay = document.getElementById('cartCount');
-                let cart = JSON.parse(localStorage.getItem('cart')) || [];
-                cartCount = cart.reduce((total, item) => total + item.quantity, 0);
-                cartCountDisplay.innerText = cartCount;
-            };
-
-            fetchProductDetails();
-        });
-
-        const renderProductDetails = (product) => {
-            document.getElementById('mainImage').src = product.mainImage;
-            document.getElementById('productTitle').innerText = product.title;
-            document.getElementById('productDescription').innerText = product.description;
-
-            const stockTag = document.getElementById('stockTag');
-            const addToCartBtn = document.getElementById('addToCartBtn');
-            const buyNowBtn = document.getElementById('buyNowBtn');
-
-            if (product.stock > 0) {
-                stockTag.innerText = "In Stock";
-                addToCartBtn.disabled = false;
-                buyNowBtn.disabled = false;
-            } else {
-                stockTag.innerText = "Out of Stock";
-                addToCartBtn.disabled = true;
-                buyNowBtn.disabled = true;
-            }
-
-            const originalPriceEl = document.getElementById('originalPrice');
-            const discountedPriceEl = document.getElementById('discountedPrice');
-            const offerTag = document.getElementById('offerTag');
-
-            if (product.offerPercentage && product.offerPercentage > 0) {
-                const discountedPrice = product.price - (product.price * (product.offerPercentage / 100));
-                originalPriceEl.innerText = `₹${product.price}`;
-                discountedPriceEl.innerText = `₹${discountedPrice.toFixed(2)}`;
-                offerTag.innerText = `${product.offerPercentage}% OFF`;
-                offerTag.style.display = 'inline';
-                originalPriceEl.classList.add('discounted-price');
-            } else {
-                originalPriceEl.innerText = `₹${product.price}`;
-                discountedPriceEl.style.display = 'none';
-                offerTag.style.display = 'none';
-            }
-
-            console.log('Product Category:', product.category); // Debug log
-            fetchRelatedProducts(product.category);
+        document.getElementById('shareBtn').onclick = () => {
+            const sharePopup = document.getElementById('sharePopup');
+            sharePopup.style.display = sharePopup.style.display === 'block' ? 'none' : 'block';
         };
 
-        const productId = new URLSearchParams(window.location.search).get('id');
+        // Setup share links with product data
+        setupShareLinks(product.title, window.location.href, product.mainImage);
 
-// Function to fetch product details using the productId
-async function getProductCategory(productId) {
-    try {
-        // Fetch product details from the backend
-        const response = await fetch(`https://dc-1-fqlb.onrender.com/api/products/${productId}`);
+        // Set button click event for "Add to Cart"
+        addToCartBtn.onclick = () => {
+            addToCart(product._id, product.title, product.mainImage, product.price, product.stock);
+        };
 
-        // Check if the response is successful
-        if (!response.ok) {
-            throw new Error(`Failed to fetch product. Status: ${response.status}`);
-        }
+        // Set button click event for "Buy Now"
+        buyNowBtn.onclick = () => {
+            if (product.stock > 0) {
+                addToCart(product._id, product.title, product.mainImage, product.price, product.stock);
+                // Redirect to the cart or checkout page
+                window.location.href = 'checkout.html'; // Change this to your checkout page URL
+            } else {
+                alert("Product is out of stock, cannot proceed to buy.");
+            }
+        };
+    };
 
-        const product = await response.json();
+    const setupShareLinks = (productTitle, productUrl, productImage) => {
+        const ogUrl = `https://dc-1-fqlb.onrender.com/products/html/${productId}`;
+        document.getElementById('facebookShare').addEventListener('click', () => {
+            const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(ogUrl)}`;
+            window.open(shareUrl, '_blank');
+        });
 
-        // Check if the product and category are available
-        if (product && product.category) {
-            console.log(`Category for product ID ${productId}:`, product.category);
-            return product.category; // Return the category
+        document.getElementById('twitterShare').addEventListener('click', () => {
+            const shareText = encodeURIComponent('Check out this amazing product!');
+            const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(ogUrl)}&text=${shareText}`;
+            window.open(twitterUrl, '_blank');
+        });
+
+        document.getElementById('whatsappShare').href = `https://wa.me/?text=${encodeURIComponent(productTitle + " " + productUrl)}`;
+        document.getElementById('linkedinShare').addEventListener('click', () => {
+            const linkedInUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(ogUrl)}`;
+            window.open(linkedInUrl, '_blank');
+        });
+
+        document.getElementById('emailShare').href = `mailto:?subject=${encodeURIComponent(productTitle)}&body=Check out this product: ${encodeURIComponent(productUrl)}`;
+    };
+
+    const startAutoSlide = (thumbnails) => {
+        clearInterval(interval);
+        interval = setInterval(() => {
+            currentIndex = (currentIndex + 1) % thumbnails.length;
+            changeMainImage(thumbnails[currentIndex], currentIndex);
+        }, 3000);
+    };
+
+    const changeMainImage = (src, index) => {
+        const mainImage = document.getElementById('mainImage');
+        mainImage.style.opacity = 0;
+        setTimeout(() => {
+            mainImage.src = src;
+            mainImage.style.opacity = 1;
+        }, 300);
+
+        currentIndex = index;
+
+        const thumbnails = document.querySelectorAll('.thumbnail');
+        thumbnails.forEach((thumbnail, i) => {
+            if (i === index) {
+                thumbnail.classList.add('active');
+            } else {
+                thumbnail.classList.remove('active');
+            }
+        });
+
+        resetAutoSlide();
+    };
+
+    const resetAutoSlide = () => {
+        clearInterval(interval);
+        const thumbnails = Array.from(document.querySelectorAll('.thumbnail img')).map(img => img.src);
+        startAutoSlide(thumbnails);
+    };
+
+    const addToCart = (productId, title, mainImage, price, stock) => {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const existingProductIndex = cart.findIndex(item => item.productId === productId);
+
+        if (existingProductIndex > -1) {
+            if (cart[existingProductIndex].quantity < stock) {
+                cart[existingProductIndex].quantity += 1;
+                alert("Product added to cart!");
+                updateStockStatus(stock); // Update stock status
+            } else {
+                alert("Product is out of stock.");
+                disableButtons(); // Disable buttons if out of stock
+            }
         } else {
-            console.log('Category not found for the given product ID.');
-            return null;
+            if (stock > 0) {
+                cart.push({ productId, title, mainImage, price, quantity: 1 });
+                alert("Product added to cart!");
+                updateStockStatus(stock); // Update stock status
+            } else {
+                alert("Product is out of stock.");
+                disableButtons(); // Disable buttons if out of stock
+            }
         }
-    } catch (error) {
-        console.error('Error fetching product category:', error);
-        return null; // Return null if there's an error
-    }
-}
 
-function createProductCard(product) {
-    const card = document.createElement('div');
-    card.classList.add('product-card');
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartCount();
+    };
 
-    const stockStatus = product.stock > 0 ? "In Stock" : "Out of Stock";
-    const stockClass = product.stock > 0 ? "in-stock" : "out-of-stock";
+    const updateStockStatus = (stock) => {
+        const stockTag = document.getElementById('stockTag');
+        const addToCartBtn = document.getElementById('addToCartBtn');
+        const buyNowBtn = document.getElementById('buyNowBtn');
 
-    const hasOffer = product.offerPercentage && product.offerPercentage > 0;
-    const discountedPrice = hasOffer
-        ? (product.price * (1 - product.offerPercentage / 100)).toFixed(2)
-        : product.price;
-
-    card.innerHTML = `
-    <div class="image-container">
-        <img src="${product.mainImage}" alt="${product.title}" />
-        <span id="stock-status-${product._id}" class="stock-status ${stockClass}">${stockStatus}</span>
-        ${hasOffer ? `<span class="offer-tag">${product.offerPercentage}% Off</span>` : ''}
-    </div>
-    <h3>${product.title}</h3>
-    <p class="product-price">
-        ${hasOffer 
-            ? `<span class="original-price line-through">₹${product.price}</span> <span class="discounted-price">₹${discountedPrice}</span>` 
-            : `₹${product.price}`}
-    </p>
-    <button onclick="window.location.href='product.html?id=${product._id}'">View Details</button>
-    <button class="button" 
-        id="add-to-cart-${product._id}" 
-        ${product.stock > 0 
-            ? `onclick="addToCart('${product._id}', '${product.title}', ${hasOffer ? discountedPrice : product.price}, '${product.mainImage}', 1)"` 
-            : 'disabled'}>
-        Add to Cart
-    </button>
-    
-    `;
-
-    return card;
-}
-
-const renderRelatedProducts = (products) => {
-    const productList = document.getElementById('product-list');
-    productList.innerHTML = ''; // Clear any previous content
-
-    // Loop through the related products and create product cards for each one
-    products.forEach((product) => {
-        const productCard = createProductCard(product);
-        productList.appendChild(productCard); // Append to the container
-    });
-};
-
-// Example function to fetch related products by category
-async function fetchRelatedProducts(category) {
-    try {
-        const response = await fetch(`https://dc-1-fqlb.onrender.com/products/by-category?category=${category}`);
-        const products = await response.json();
-
-        if (products.length > 0) {
-            renderRelatedProducts(products); // Render the related products
+        if (stock === 0) {
+            stockTag.innerText = "Out of Stock";
+            addToCartBtn.disabled = true;
+            buyNowBtn.disabled = true;
         } else {
-            console.log('No related products found.');
-            document.getElementById('product-list').innerHTML = `<p>No related products found for ${category}</p>`;
+            stockTag.innerText = "In Stock";
+            addToCartBtn.disabled = false;
+            buyNowBtn.disabled = false;
         }
-    } catch (error) {
-        console.error('Error fetching related products:', error);
-    }
-}
+    };
 
-// Fetch the product category first, then fetch related products based on that category
-getProductCategory(productId).then(category => {
-    if (category) {
-        fetchRelatedProducts(category); // Fetch related products for the category
-    }
+    const disableButtons = () => {
+        const addToCartBtn = document.getElementById('addToCartBtn');
+        const buyNowBtn = document.getElementById('buyNowBtn');
+        addToCartBtn.disabled = true;
+        buyNowBtn.disabled = true;
+    };
+
+    const updateCartCount = () => {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
+        document.getElementById('cartCount').innerText = cartCount;
+    };
+
+    fetchProductDetails();
 });
 
     </script>
