@@ -837,16 +837,24 @@ footer .row a:hover {
         };
     };
 
+    const resizeImage = (imageUrl, width, height) => {
+        // Example of resizing the image URL using a third-party service like Cloudinary
+        // Replace with your preferred image resizing API or logic
+        return `${imageUrl}?w=${width}&h=${height}&crop=fit`;
+    };
+
     const setupShareLinks = (productTitle, productUrl, productImage) => {
+        const resizedImage = resizeImage(productImage, 1200, 630); // Resize image for sharing
+
         const ogUrl = `https://dc-1-fqlb.onrender.com/products/html/${productId}`;
         document.getElementById('facebookShare').addEventListener('click', () => {
-            const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(ogUrl)}`;
+            const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(ogUrl)}&picture=${encodeURIComponent(resizedImage)}`;
             window.open(shareUrl, '_blank');
         });
 
         document.getElementById('twitterShare').addEventListener('click', () => {
             const shareText = encodeURIComponent('Check out this amazing product!');
-            const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(ogUrl)}&text=${shareText}`;
+            const twitterUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(ogUrl)}&text=${shareText}&via=twitter&image=${encodeURIComponent(resizedImage)}`;
             window.open(twitterUrl, '_blank');
         });
 
@@ -902,58 +910,35 @@ footer .row a:hover {
         if (existingProductIndex > -1) {
             if (cart[existingProductIndex].quantity < stock) {
                 cart[existingProductIndex].quantity += 1;
-                alert("Product added to cart!");
-                updateStockStatus(stock); // Update stock status
-            } else {
-                alert("Product is out of stock.");
-                disableButtons(); // Disable buttons if out of stock
             }
         } else {
-            if (stock > 0) {
-                cart.push({ productId, title, mainImage, price, quantity: 1 });
-                alert("Product added to cart!");
-                updateStockStatus(stock); // Update stock status
-            } else {
-                alert("Product is out of stock.");
-                disableButtons(); // Disable buttons if out of stock
-            }
+            cart.push({
+                productId,
+                title,
+                mainImage,
+                price,
+                quantity: 1,
+            });
         }
 
         localStorage.setItem('cart', JSON.stringify(cart));
         updateCartCount();
     };
 
-    const updateStockStatus = (stock) => {
-        const stockTag = document.getElementById('stockTag');
-        const addToCartBtn = document.getElementById('addToCartBtn');
-        const buyNowBtn = document.getElementById('buyNowBtn');
-
-        if (stock === 0) {
-            stockTag.innerText = "Out of Stock";
-            addToCartBtn.disabled = true;
-            buyNowBtn.disabled = true;
-        } else {
-            stockTag.innerText = "In Stock";
-            addToCartBtn.disabled = false;
-            buyNowBtn.disabled = false;
-        }
+    const updateCartCount = () => {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+        document.getElementById('cartCount').innerText = cartCount;
     };
 
     const disableButtons = () => {
-        const addToCartBtn = document.getElementById('addToCartBtn');
-        const buyNowBtn = document.getElementById('buyNowBtn');
-        addToCartBtn.disabled = true;
-        buyNowBtn.disabled = true;
-    };
-
-    const updateCartCount = () => {
-        const cart = JSON.parse(localStorage.getItem('cart')) || [];
-        cartCount = cart.reduce((acc, item) => acc + item.quantity, 0);
-        document.getElementById('cartCount').innerText = cartCount;
+        document.getElementById('addToCartBtn').disabled = true;
+        document.getElementById('buyNowBtn').disabled = true;
     };
 
     fetchProductDetails();
 });
+
 
     </script>
 
