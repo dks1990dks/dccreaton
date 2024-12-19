@@ -61,7 +61,7 @@ header {
 
 .navbar li {
     list-style: none;
-    margin-left: 30px;
+    
 }
 
 .navbar a {
@@ -83,20 +83,45 @@ header {
 }
 
 /* Navbar general styling */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #333;
-    padding: 10px 20px;
-    position: relative;
-    /* Ensure it doesn't overlap with other content */
+
+
+
+/* Logo container styling */
+.logo {
+    display: flex; /* Centers content horizontally */
+    justify-content: center; /* Centers logo within its container */
+    align-items: center; /* Centers logo vertically */
+    padding: 0px; /* Add some spacing around the logo */
+    background-color: #ffffff; /* Optional: background color */
 }
 
-.logo {
-    margin-right: auto;
-    /* Ensures logo takes space to avoid overlap */
+/* Logo image styling */
+.logo img {
+    max-width: 100%; /* Ensure the image does not overflow its container */
+    height: auto; /* Maintain aspect ratio */
+    max-height: 80px; /* Optional: Set a maximum height for the logo */
+    transition: transform 0.3s ease; /* Smooth hover effect */
 }
+
+/* Hover effect for the logo */
+.logo img:hover {
+    transform: scale(1.1); /* Slight zoom effect on hover */
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .logo img {
+        max-height: 60px; /* Smaller logo for tablets */
+    }
+}
+
+@media (max-width: 480px) {
+    .logo img {
+        max-height: 50px; /* Smaller logo for mobile devices */
+    }
+}
+
+
 
 .navbar ul {
     list-style: none;
@@ -181,16 +206,20 @@ header {
     .sidenav a {
         font-size: 18px;
     }
+    
 }
+
+
+
 
 
 #add-product-btn,#delete-product-btn{
     padding: 10px;
     font-size: smaller;
 }
-.logo img {
+/* .logo img {
     height: 100px;
-}
+} */
 
 /* Main Section */
 /* Slider Styles */
@@ -254,6 +283,10 @@ button:hover {
     width: 85%;
     margin: auto;
 }
+.shop-section h2{
+    font-size: 2rem;
+}
+
 
 
 .category-container {
@@ -335,6 +368,8 @@ button:hover {
 .product-card button:hover {
     background-color: #e64a19;
 }
+
+
 
 /* 'See More' button styling */
 .see-more {
@@ -432,6 +467,7 @@ button,
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin-top: 5px;
 }
 
 button:hover,

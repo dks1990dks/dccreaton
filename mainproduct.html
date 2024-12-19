@@ -14,25 +14,18 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Play&display=swap" rel="stylesheet">
     <style>
-        /* Main container styling */
-        main {
-            padding: 30px 50px;
-        }
-
-        /* Navbar general styling */
-        .navbar {
+         /* Navbar general styling */
+         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
             background-color: #333;
             padding: 10px 20px;
-            position: relative;
-            /* Ensure it doesn't overlap with other content */
+            position: relative; /* Ensure it doesn't overlap with other content */
         }
 
         .logo {
-            margin-right: auto;
-            /* Ensures logo takes space to avoid overlap */
+            margin-right: auto; /* Ensures logo takes space to avoid overlap */
         }
 
         .navbar ul {
@@ -54,12 +47,10 @@
             font-size: 30px;
             cursor: pointer;
             color: white;
-            margin-left: 20px;
-            /* Add margin to the left */
+            margin-left: 20px; /* Add margin to the left */
         }
-
-        /* Side Navigation Styling */
-        .sidenav {
+         /* Side Navigation Styling */
+         .sidenav {
             height: auto;
             width: 0;
             position: fixed;
@@ -72,7 +63,6 @@
             padding-top: auto;
             border-radius: 10px;
         }
-
         .sidenav a {
             padding: 8px 8px 8px 32px;
             text-decoration: none;
@@ -102,13 +92,11 @@
             }
 
             .hamburger {
-                display: block;
-                /* Show hamburger in small screen */
+                display: block; /* Show hamburger in small screen */
             }
 
             .navbar {
-                padding: 10px;
-                /* Adjust padding for smaller screens */
+                padding: 10px; /* Adjust padding for smaller screens */
             }
         }
 
@@ -120,32 +108,6 @@
         }
 
 
-        /* Delete button (X) styling */
-        .delete-btn {
-            position: absolute;
-            top: 0;
-            right: 0;
-            background-color: red;
-            color: white;
-            border: none;
-            padding: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-            display: none;
-        }
-
-        .delete-mode .delete-btn {
-            display: block;
-            /* Display delete button when delete mode is active */
-        }
-
-        #delete-product-btn {
-            padding: 5;
-            background-color: green;
-            border: 1px solid;
-
-        }
-
         #add-product-btn {
             padding: 5;
             background-color: red;
@@ -156,19 +118,13 @@
             background-color: pink;
         }
 
-        #delete-product-btn:hover {
-            background-color: black;
-        }
+      
 
         /* Responsive Design */
         @media (max-width: 768px) {
             .products-grid {
                 flex-direction: column;
                 align-items: center;
-            }
-
-            .product-card {
-                width: 80%;
             }
         }
 
@@ -219,20 +175,25 @@
 
         .stock-status {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: rgba(255, 0, 0, 0.8);
-            /* Red background for out of stock */
-            color: white;
-            padding: 5px 10px;
-            border-radius: 5px;
-            font-size: 0.9em;
+            top: 8px;
+            left: 8px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            font-size: 0.8rem;
+            padding: 0.3rem 0.5rem;
+            border-radius: 4px;
+            text-transform: uppercase;
             font-weight: bold;
         }
 
         .stock-status.in-stock {
-            background-color: rgba(0, 128, 0, 0.8);
+            background: rgba(0, 128, 0, 0.7);
             /* Green background for in stock */
+        }
+
+        .stock-status.out-of-stock {
+            background: rgba(255, 0, 0, 0.7);
+            /* Red for out-of-stock */
         }
 
 
@@ -240,61 +201,61 @@
             background-color: grey;
             cursor: not-allowed;
         }
+
         /* Float stock status and offer tag */
-     .offer-tag {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background-color: red;
-        color: white;
-        padding: 5px;
-        border-radius: 5px;
-        font-weight: bold;
-    }
+        .offer-tag {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #ff9800;
+            color: #fff;
+            font-size: 0.8rem;
+            padding: 0.3rem 0.5rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
 
-    .offer-tag {
-        top: 40px;
-        background-color: green;
-    }
 
-    .original-price {
-        text-decoration: line-through;
-        color: grey;
-        font-size: 0.9em;
-    }
 
-    .discounted-price {
-        color: red;
-        font-weight: bold;
-        font-size: 1.1em;
-    }
+        .original-price {
+            text-decoration: line-through;
+            color: grey;
+            font-size: 0.9em;
+        }
+
+        .discounted-price {
+            color: red;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
     </style>
 </head>
 
 <body>
-      <!-- Header Section -->
-      <header>
+    <!-- Header Section -->
+    <header>
         <div class="top-bar">
             <p>+91 9737833333 | info@abcd.com</p>
         </div>
         <nav class="navbar">
             <div class="logo">
-                <img src="LOGO.jpeg" alt="Logo">
-            </div>
+                <img alt="Logo" id="logoImage">
+            </div>            
             <span class="hamburger" onclick="openNav()">&#9776;</span>
             <ul id="navbar-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="aboutus.html">About Us</a></li>
                 <li><a href="mainproduct.html">Collections</a></li>
                 <li><a href="contactus.html">Contact Us</a></li>
-                
+
             </ul>
-            <li  id="user-nav">
+            <li id="user-nav">
                 <a href="#" id="login-link">Login</a> <!-- Default Login Link -->
-              </li>
+            </li>
             <li><a href="cart.html" id="cartIcon">
-                <i class="fa fa-shopping-cart"></i> <span id="cartCount">0</span>
-            </a></li>
+                    <i class="fa fa-shopping-cart"></i> <span id="cartCount">0</span>
+                </a></li>
         </nav>
     </header>
     <!-- Side Navigation for Mobile -->
@@ -304,54 +265,54 @@
         <a href="aboutus.html">About Us</a>
         <a href="mainproduct.html">Collections</a>
         <a href="contactus.html">Contact Us</a>
-        
+
     </div>
 
     <div id="login-modal" class="modal">
         <div class="modal-content">
-          <span class="close" id="close-modal">&times;</span>
-          <div class="form-container">
-            <div class="form-header">
-              <button id="login-btn" class="active">Login</button>
-              <button id="register-btn">Register</button>
+            <span class="close" id="close-modal">&times;</span>
+            <div class="form-container">
+                <div class="form-header">
+                    <button id="login-btn" class="active">Login</button>
+                    <button id="register-btn">Register</button>
+                </div>
+                <form id="login-form" class="active">
+                    <h2>Login</h2>
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" placeholder="Enter your email" required />
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" placeholder="Enter your password" required />
+                    <button type="button" id="login-submit" class="submit-btn">Login</button>
+                    <p><a href="#" id="forgot-password-link">Forgot Password?</a></p>
+                </form>
+                <form id="register-form">
+                    <h2>Register</h2>
+                    <label for="register-name">Name</label>
+                    <input type="text" id="register-name" placeholder="Enter your name" required />
+                    <label for="register-email">Email</label>
+                    <input type="email" id="register-email" placeholder="Enter your email" required />
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" placeholder="Create a password" required />
+                    <button type="button" id="register-submit" class="submit-btn">Register</button>
+                </form>
             </div>
-            <form id="login-form" class="active">
-              <h2>Login</h2>
-              <label for="login-email">Email</label>
-              <input type="email" id="login-email" placeholder="Enter your email" required />
-              <label for="login-password">Password</label>
-              <input type="password" id="login-password" placeholder="Enter your password" required />
-              <button type="button" id="login-submit" class="submit-btn">Login</button>
-              <p><a href="#" id="forgot-password-link">Forgot Password?</a></p>
-            </form>
-            <form id="register-form">
-              <h2>Register</h2>
-              <label for="register-name">Name</label>
-              <input type="text" id="register-name" placeholder="Enter your name" required />
-              <label for="register-email">Email</label>
-              <input type="email" id="register-email" placeholder="Enter your email" required />
-              <label for="register-password">Password</label>
-              <input type="password" id="register-password" placeholder="Create a password" required />
-              <button type="button" id="register-submit" class="submit-btn">Register</button>
-            </form>
-          </div>
         </div>
-      </div>
+    </div>
 
-      <div id="forgot-password-modal" class="modal">
+    <div id="forgot-password-modal" class="modal">
         <div class="modal-content">
-          <span class="close" id="close-forgot-password-modal">&times;</span>
-          <h2>Reset Password</h2>
-      
-          <!-- Forgot Password Form -->
-          <form id="forgot-password-form">
-            <label for="reset-email">Email</label>
-            <input type="email" id="reset-email" placeholder="Enter your email" required />
-            <button type="button" id="reset-password-submit" class="submit-btn">Send Reset Link</button>
-          </form>
+            <span class="close" id="close-forgot-password-modal">&times;</span>
+            <h2>Reset Password</h2>
+
+            <!-- Forgot Password Form -->
+            <form id="forgot-password-form">
+                <label for="reset-email">Email</label>
+                <input type="email" id="reset-email" placeholder="Enter your email" required />
+                <button type="button" id="reset-password-submit" class="submit-btn">Send Reset Link</button>
+            </form>
         </div>
-      </div>
-      
+    </div>
+
 
     <main>
         <section class="shop-section">
@@ -423,93 +384,93 @@
     <script src="cart.js"></script>
     <script src="myaccountlogin.js"></script>
     <script>
- const productId = new URLSearchParams(window.location.search).get('id');
-let currentIndex = 0;
-let interval;
-let cartCount = 0; // Cart item count
+        const productId = new URLSearchParams(window.location.search).get('id');
+        let currentIndex = 0;
+        let interval;
+        let cartCount = 0; // Cart item count
 
-function openNav() {
-    document.getElementById("mySidenav").style.width = "250px";
-}
-
-function closeNav() {
-    document.getElementById("mySidenav").style.width = "0";
-}
-
-function checkAdminPassword() {
-    let password = prompt("Please enter the admin password:");
-    if (password === "J") { // Replace this with actual password logic
-        document.getElementById("add-product-mobile").style.display = "block";
-        document.getElementById("delete-product-mobile").style.display = "block";
-        document.getElementById("add-product-btn").style.display = "block";
-        document.getElementById("delete-product-btn").style.display = "block";
-        alert("Password verified successfully!");
-    } else {
-        alert("Incorrect password!");
-    }
-}
-
-document.addEventListener('DOMContentLoaded', async () => {
-    const categories = ['Saree', 'Suit', 'Kurti', 'Gown', 'Lehenga'];
-
-    const categoryContainers = {
-        Saree: document.getElementById('saree-container'),
-        Suit: document.getElementById('suit-container'),
-        Kurti: document.getElementById('kurti-container'),
-        Gown: document.getElementById('gown-container'),
-        Lehenga: document.getElementById('lehenga-container')
-    };
-
-    const seeMoreButtons = {
-        Saree: document.getElementById('see-more-sarees'),
-        Suit: document.getElementById('see-more-suits'),
-        Kurti: document.getElementById('see-more-kurtis'),
-        Gown: document.getElementById('see-more-gowns'),
-        Lehenga: document.getElementById('see-more-lehengas')
-    };
-
-    try {
-        const response = await fetch('https://dc-1-fqlb.onrender.com/products');
-        const products = await response.json();
-
-        categories.forEach(category => {
-            const categoryProducts = products.filter(product => product.category === category);
-            displayProducts(categoryProducts, categoryContainers[category], seeMoreButtons[category]);
-        });
-    } catch (error) {
-        console.error('Error fetching products:', error);
-    }
-
-    function displayProducts(products, container, seeMoreBtn) {
-        container.innerHTML = '';
-        const visibleProducts = products.slice(0, 3);
-        const hiddenProducts = products.slice(3);
-
-        visibleProducts.forEach(product => {
-            container.appendChild(createProductCard(product));
-        });
-
-        if (hiddenProducts.length > 0) {
-            seeMoreBtn.style.display = 'block';
-            seeMoreBtn.addEventListener('click', () => {
-                hiddenProducts.forEach(product => container.appendChild(createProductCard(product)));
-                seeMoreBtn.style.display = 'none';
-            });
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "250px";
         }
-    }
-    function createProductCard(product) {
-    const card = document.createElement('div');
-    card.classList.add('product-card');
 
-    const stockStatus = product.stock > 0 ? "In Stock" : "Out of Stock";
-    const stockClass = product.stock > 0 ? "in-stock" : "out-of-stock";
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+        }
 
-    const hasOffer = product.offerPercentage && product.offerPercentage > 0;
-    const discountedPrice = hasOffer
-        ? (product.price * (1 - product.offerPercentage / 100)).toFixed(2)
-        : product.price;
+        function checkAdminPassword() {
+            let password = prompt("Please enter the admin password:");
+            if (password === "J") { // Replace this with actual password logic
+                document.getElementById("add-product-mobile").style.display = "block";
+                document.getElementById("delete-product-mobile").style.display = "block";
+                document.getElementById("add-product-btn").style.display = "block";
+                document.getElementById("delete-product-btn").style.display = "block";
+                alert("Password verified successfully!");
+            } else {
+                alert("Incorrect password!");
+            }
+        }
 
-        card.innerHTML = `
+        document.addEventListener('DOMContentLoaded', async () => {
+            const categories = ['Saree', 'Suit', 'Kurti', 'Gown', 'Lehenga'];
+
+            const categoryContainers = {
+                Saree: document.getElementById('saree-container'),
+                Suit: document.getElementById('suit-container'),
+                Kurti: document.getElementById('kurti-container'),
+                Gown: document.getElementById('gown-container'),
+                Lehenga: document.getElementById('lehenga-container')
+            };
+
+            const seeMoreButtons = {
+                Saree: document.getElementById('see-more-sarees'),
+                Suit: document.getElementById('see-more-suits'),
+                Kurti: document.getElementById('see-more-kurtis'),
+                Gown: document.getElementById('see-more-gowns'),
+                Lehenga: document.getElementById('see-more-lehengas')
+            };
+
+            try {
+                const response = await fetch('https://dc-1-fqlb.onrender.com/products');
+                const products = await response.json();
+
+                categories.forEach(category => {
+                    const categoryProducts = products.filter(product => product.category === category);
+                    displayProducts(categoryProducts, categoryContainers[category], seeMoreButtons[category]);
+                });
+            } catch (error) {
+                console.error('Error fetching products:', error);
+            }
+
+            function displayProducts(products, container, seeMoreBtn) {
+                container.innerHTML = '';
+                const visibleProducts = products.slice(0, 3);
+                const hiddenProducts = products.slice(3);
+
+                visibleProducts.forEach(product => {
+                    container.appendChild(createProductCard(product));
+                });
+
+                if (hiddenProducts.length > 0) {
+                    seeMoreBtn.style.display = 'block';
+                    seeMoreBtn.addEventListener('click', () => {
+                        hiddenProducts.forEach(product => container.appendChild(createProductCard(product)));
+                        seeMoreBtn.style.display = 'none';
+                    });
+                }
+            }
+            function createProductCard(product) {
+                const card = document.createElement('div');
+                card.classList.add('product-card');
+
+                const stockStatus = product.stock > 0 ? "In Stock" : "Out of Stock";
+                const stockClass = product.stock > 0 ? "in-stock" : "out-of-stock";
+
+                const hasOffer = product.offerPercentage && product.offerPercentage > 0;
+                const discountedPrice = hasOffer
+                    ? (product.price * (1 - product.offerPercentage / 100)).toFixed(2)
+                    : product.price;
+
+                card.innerHTML = `
     <div class="image-container">
         <img src="${product.mainImage}" alt="${product.title}" />
         <span id="stock-status-${product._id}" class="stock-status ${stockClass}">${stockStatus}</span>
@@ -517,95 +478,94 @@ document.addEventListener('DOMContentLoaded', async () => {
     </div>
     <h3>${product.title}</h3>
     <p class="product-price">
-        ${hasOffer 
-            ? `<span class="original-price line-through">₹${product.price}</span> <span class="discounted-price">₹${discountedPrice}</span>` 
-            : `₹${product.price}`}
+        ${hasOffer
+                        ? `<span class="original-price line-through">₹${product.price}</span> <span class="discounted-price">₹${discountedPrice}</span>`
+                        : `₹${product.price}`}
     </p>
     <button onclick="window.location.href='product.html?id=${product._id}'">View Details</button>
     <button class="button" 
         id="add-to-cart-${product._id}" 
-        ${product.stock > 0 
-            ? `onclick="addToCart('${product._id}', '${product.title}', ${hasOffer ? discountedPrice : product.price}, '${product.mainImage}', 1)"` 
-            : 'disabled'}>
+        ${product.stock > 0
+                        ? `onclick="addToCart('${product._id}', '${product.title}', ${hasOffer ? discountedPrice : product.price}, '${product.mainImage}', 1)"`
+                        : 'disabled'}>
         Add to Cart
     </button>
-        <button class="delete-btn" onclick="deleteProduct('${product._id}', this)">X</button>
     `;
 
-    return card;
-}
+                return card;
+            }
 
 
 
-});
-
-function toggleDeleteMode() {
-    document.body.classList.toggle('delete-mode');
-}
-
-async function deleteProduct(productId) {
-    try {
-        console.log(`Sending DELETE request to: https://dc-1-fqlb.onrender.com/products/${productId}`);
-        const response = await fetch(`https://dc-1-fqlb.onrender.com/products/${productId}`, {
-            method: 'DELETE',
         });
-        console.log(`Response status: ${response.status}`);
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
+
+        function toggleDeleteMode() {
+            document.body.classList.toggle('delete-mode');
         }
-        const data = await response.json();
-        console.log('Delete response data:', data);
-    } catch (error) {
-        console.error('Error deleting product:', error);
-    }
-}
 
-// function addToCart(productId, title, mainImage, price, stock) {
-//     let cart = JSON.parse(localStorage.getItem('cart')) || [];
-//     const existingProductIndex = cart.findIndex(item => item.productId === productId);
+        async function deleteProduct(productId) {
+            try {
+                console.log(`Sending DELETE request to: https://dc-1-fqlb.onrender.com/products/${productId}`);
+                const response = await fetch(`https://dc-1-fqlb.onrender.com/products/${productId}`, {
+                    method: 'DELETE',
+                });
+                console.log(`Response status: ${response.status}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const data = await response.json();
+                console.log('Delete response data:', data);
+            } catch (error) {
+                console.error('Error deleting product:', error);
+            }
+        }
 
-//     if (existingProductIndex > -1) {
-//         if (cart[existingProductIndex].quantity < stock) {
-//             cart[existingProductIndex].quantity += 1;
-//             alert("Product added to cart!");
-//         } else {
-//             alert("Product is out of stock.");
-//             disableButton(productId); // Disable button for the specific product
-//         }
-//     } else {
-//         if (stock > 0) {
-//             cart.push({ productId, title, mainImage, price, quantity: 1 });
-//             alert("Product added to cart!");
-//         } else {
-//             alert("Product is out of stock.");
-//             disableButton(productId); // Disable button for the specific product
-//         }
-//     }
+        // function addToCart(productId, title, mainImage, price, stock) {
+        //     let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        //     const existingProductIndex = cart.findIndex(item => item.productId === productId);
 
-//     localStorage.setItem('cart', JSON.stringify(cart));
-//     updateCartCount();
-// }
+        //     if (existingProductIndex > -1) {
+        //         if (cart[existingProductIndex].quantity < stock) {
+        //             cart[existingProductIndex].quantity += 1;
+        //             alert("Product added to cart!");
+        //         } else {
+        //             alert("Product is out of stock.");
+        //             disableButton(productId); // Disable button for the specific product
+        //         }
+        //     } else {
+        //         if (stock > 0) {
+        //             cart.push({ productId, title, mainImage, price, quantity: 1 });
+        //             alert("Product added to cart!");
+        //         } else {
+        //             alert("Product is out of stock.");
+        //             disableButton(productId); // Disable button for the specific product
+        //         }
+        //     }
 
-// function disableButton(productId) {
-//     // Disable the "Add to Cart" button for the specific product
-//     const button = document.querySelector(`#add-to-cart-${productId}`);
-//     if (button) {
-//         button.disabled = true;
-//         button.style.cursor = "not-allowed";
-//     }
+        //     localStorage.setItem('cart', JSON.stringify(cart));
+        //     updateCartCount();
+        // }
 
-//     // Change the stock status for the specific product
-//     const stockStatus = document.querySelector(`#stock-status-${productId}`);
-//     if (stockStatus) {
-//         stockStatus.innerText = "Out of Stock";
-//     }
-// }
+        // function disableButton(productId) {
+        //     // Disable the "Add to Cart" button for the specific product
+        //     const button = document.querySelector(`#add-to-cart-${productId}`);
+        //     if (button) {
+        //         button.disabled = true;
+        //         button.style.cursor = "not-allowed";
+        //     }
 
-// function updateCartCount() {
-//     const cart = JSON.parse(localStorage.getItem('cart')) || [];
-//     const cartCount = cart.reduce((count, item) => count + item.quantity, 0); // Sum the quantities of all products in the cart
-//     document.getElementById('cartCount').innerText = cartCount;
-// }
+        //     // Change the stock status for the specific product
+        //     const stockStatus = document.querySelector(`#stock-status-${productId}`);
+        //     if (stockStatus) {
+        //         stockStatus.innerText = "Out of Stock";
+        //     }
+        // }
+
+        // function updateCartCount() {
+        //     const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        //     const cartCount = cart.reduce((count, item) => count + item.quantity, 0); // Sum the quantities of all products in the cart
+        //     document.getElementById('cartCount').innerText = cartCount;
+        // }
 
 
 

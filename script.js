@@ -16,32 +16,20 @@ function closeNav() {
     document.getElementById("mySidenav").style.width = "0";
 }
 
+// Get the <p> element inside the top-bar
+const topBarParagraph = document.querySelector(".top-bar p");
 
+// Update the content of the <p> element
+topBarParagraph.textContent = "+91 8866383170 | ashokprasadv@gmail.com";
 
-// // ADMIN CONTROL
-// const ADMIN_PASSWORD = "J"; // Set your admin password here
+// Select the <img> element
+const logoImage = document.getElementById("logoImage");
 
-// const checkAdminPassword = () => {
-//     const userPassword = prompt("Enter admin password:");
+// Set the src attribute of the <img> element dynamically
+logoImage.src = "archanalogo.webp";
 
-//     if (userPassword === ADMIN_PASSWORD) {
-//         alert("Access granted.");
-//         document.getElementById('admin-dropdown').style.display = 'block';
-
-//         // Attach event listeners for the admin options
-//         document.getElementById('add-product-btn').onclick = () => {
-//             window.location.href = 'addproduct.html'; // Redirect to add product page
-//         };
-
-//         document.getElementById('delete-product-btn').onclick = () => {
-//             document.querySelectorAll('.delete-btn').forEach(button => {
-//                 button.style.display = 'inline'; // Show delete buttons
-//             });
-//         };
-//     } else {
-//         alert("Access denied. Incorrect password.");
-//     }
-// };
+// Optionally, set the alt attribute
+logoImage.alt = "Archana Logo";
 
 // PRODUCT ADDITION
 document.addEventListener('DOMContentLoaded', () => {
